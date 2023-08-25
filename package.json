@@ -7,22 +7,34 @@
   ],
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
+      "import": {
+        "default": "./dist/index.js",
+        "types": "./dist/types/index.d.ts"
+      },
       "require": "./dist/index.cjs"
     },
     "./math": {
-      "import": "./dist/math.js",
+      "import": {
+        "default": "./dist/math.js",
+        "types": "./dist/types/math.d.ts"
+      },
       "require": "./dist/math.cjs"
     },
     "./webgl": {
-      "import": "./dist/webgl.js",
+      "import": {
+        "default": "./dist/webgl.js",
+        "types": "./dist/types/webgl.d.ts"
+      },
       "require": "./dist/webgl.cjs"
     },
     "./camera": {
-      "import": "./dist/camera.js",
+      "import": {
+        "default": "./dist/camera.js",
+        "types": "./dist/types/camera.d.ts"
+      },
       "require": "./dist/camera.cjs"
     }
   },

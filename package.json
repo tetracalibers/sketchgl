@@ -8,19 +8,14 @@
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
-      "module": "./dist/index.cjs",
-      "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
     "./*": {
       "types": "./dist/types/*.d.ts",
-      "module": "./dist/*.cjs",
-      "import": "./dist/*.js",
       "default": "./dist/*.js"
     }
   },
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
+  "main": "./dist/index.js",
   "typesVersions": {
     "*": {
       "dist/types/index.d.ts": [

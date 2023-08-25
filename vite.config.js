@@ -17,6 +17,7 @@ export default defineConfig({
         // グローバル変数を提供します
         globals: {}
       }
-    }
+    },
+    sourcemap: true
   }
 })

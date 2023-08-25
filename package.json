@@ -23,10 +23,8 @@
   "module": "./dist/index.js",
   "typesVersions": {
     "*": {
-      ".": [
-        "dist/types/index.d.ts"
-      ],
       "*": [
+        "dist/types/index.d.ts",
         "dist/types/*"
       ]
     }

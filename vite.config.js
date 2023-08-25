@@ -5,10 +5,8 @@ export default defineConfig({
   build: {
     lib: {
       // 複数のエントリーポイントのディクショナリや配列にもできます
-      entry: resolve(__dirname, "lib/index.ts"),
-      name: "sketchgl",
-      // 適切な拡張子が追加されます
-      fileName: "sketchgl"
+      entry: ["lib/index.ts", "lib/math.ts", "lib/camera.ts", "lib/webgl.ts"].map((path) => resolve(__dirname, path)),
+      name: "sketchgl"
     },
     rollupOptions: {
       // ライブラリにバンドルされるべきではない依存関係を

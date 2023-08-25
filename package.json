@@ -5,12 +5,24 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/sketchgl.umd.cjs",
-  "module": "./dist/sketchgl.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "exports": {
     ".": {
-      "import": "./dist/sketchgl.js",
-      "require": "./dist/sketchgl.umd.cjs"
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./math": {
+      "import": "./dist/math.js",
+      "require": "./dist/math.cjs"
+    },
+    "./webgl": {
+      "import": "./dist/webgl.js",
+      "require": "./dist/webgl.cjs"
+    },
+    "./camera": {
+      "import": "./dist/camera.js",
+      "require": "./dist/camera.cjs"
     }
   },
   "scripts": {

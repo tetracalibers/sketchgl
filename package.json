@@ -24,8 +24,10 @@
   "typesVersions": {
     "*": {
       "*": [
-        "dist/types/index.d.ts",
         "dist/types/*"
+      ],
+      ".": [
+        "dist/types/index.d.ts"
       ]
     }
   },

@@ -1,8 +1,18 @@
 {
   "name": "sketchgl",
-  "private": true,
   "version": "0.0.0",
   "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/sketchgl.umd.cjs",
+  "module": "./dist/sketchgl.js",
+  "exports": {
+    ".": {
+      "import": "./dist/sketchgl.js",
+      "require": "./dist/sketchgl.umd.cjs"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",

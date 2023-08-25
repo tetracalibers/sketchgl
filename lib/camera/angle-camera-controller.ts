@@ -40,8 +40,8 @@ export class AngleCameraController extends Pointer {
     canvas.addEventListener("mousemove", (e) => this.onMove(e), { passive: false })
     canvas.addEventListener("touchmove", (e) => this.onMove(e), { passive: false })
 
-    canvas.addEventListener("mouseup", (e) => this.onMoveEnd(e), { passive: true })
-    canvas.addEventListener("touchend", (e) => this.onMoveEnd(e), { passive: true })
+    canvas.addEventListener("mouseup", () => this.onMoveEnd(), { passive: true })
+    canvas.addEventListener("touchend", () => this.onMoveEnd(), { passive: true })
 
     canvas.setAttribute("tabindex", "0")
     canvas.addEventListener("keydown", (e) => this.onKeyDown(e), { passive: false })
@@ -72,7 +72,7 @@ export class AngleCameraController extends Pointer {
     e.altKey ? this.dolly(dy) : this.rotate(dx, dy)
   }
 
-  private onMoveEnd(e: MouseEvent | TouchEvent) {
+  private onMoveEnd() {
     this._dragging = false
   }
 

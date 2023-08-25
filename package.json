@@ -5,39 +5,23 @@
   "files": [
     "dist"
   ],
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "module": "./dist/index.cjs",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./*": {
+      "types": "./dist/types/*.d.ts",
+      "module": "./dist/*.cjs",
+      "import": "./dist/*.js",
+      "default": "./dist/*.js"
+    }
+  },
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/types/index.d.ts",
-  "exports": {
-    ".": {
-      "import": {
-        "default": "./dist/index.js",
-        "types": "./dist/types/index.d.ts"
-      },
-      "require": "./dist/index.cjs"
-    },
-    "./math": {
-      "import": {
-        "default": "./dist/math.js",
-        "types": "./dist/types/math.d.ts"
-      },
-      "require": "./dist/math.cjs"
-    },
-    "./webgl": {
-      "import": {
-        "default": "./dist/webgl.js",
-        "types": "./dist/types/webgl.d.ts"
-      },
-      "require": "./dist/webgl.cjs"
-    },
-    "./camera": {
-      "import": {
-        "default": "./dist/camera.js",
-        "types": "./dist/types/camera.d.ts"
-      },
-      "require": "./dist/camera.cjs"
-    }
-  },
   "scripts": {
     "dev": "vite",
     "build": "vite build && tsc",

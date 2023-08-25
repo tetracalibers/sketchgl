@@ -21,6 +21,13 @@
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/types/*"
+      ]
+    }
+  },
   "types": "./dist/types/index.d.ts",
   "scripts": {
     "dev": "vite",

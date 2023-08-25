@@ -13,7 +13,7 @@ export default defineConfig({
     rollupOptions: {
       // ライブラリにバンドルされるべきではない依存関係を
       // 外部化するようにします
-      external: [],
+      external: ["lil-gui"],
       output: {
         // 外部化された依存関係のために UMD のビルドで使用する
         // グローバル変数を提供します

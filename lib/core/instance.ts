@@ -18,7 +18,7 @@ export interface Sketch {
   drawOnFrame?: () => void
   drawOnInit?: () => void
   control?: (ui: ControlUi) => void
-  preload?: () => Promise<unknown>[]
+  preload?: Promise<unknown>[]
 }
 
 export type SketchFn = (skCanvas: SketchCanvas) => Sketch
@@ -56,7 +56,7 @@ export class SketchGl {
     }
 
     if (preload) {
-      Promise.all(preload()).then(start)
+      Promise.all(preload).then(start)
     } else {
       start()
     }

@@ -1,9 +1,6 @@
 import { CanvasOptions, Context } from "./context"
 import { Clock } from "./clock"
 import { ControlUi } from "../gui/control-ui"
-import { ValueOf } from "../utility/object"
-
-type PromiseRecord = Record<string, Promise<unknown>>
 
 export interface SketchConfig {
   canvas: CanvasOptions & {
@@ -17,11 +14,11 @@ export interface SketchCanvas {
   gl: WebGL2RenderingContext
 }
 
-export interface Sketch<P = PromiseRecord> {
+export interface Sketch {
   drawOnFrame?: () => void
   drawOnInit?: () => void
   control?: (ui: ControlUi) => void
-  preload?: () => Record<string, Awaited<ValueOf<P>>>
+  preload?: () => Promise<unknown>[]
 }
 
 export type SketchFn = (skCanvas: SketchCanvas) => Sketch
@@ -59,7 +56,7 @@ export class SketchGl {
     }
 
     if (preload) {
-      Promise.all(Object.values(preload())).then(start)
+      Promise.all(preload()).then(start)
     } else {
       start()
     }

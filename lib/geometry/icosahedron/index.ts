@@ -1,12 +1,7 @@
-import { ShapeGeometry, getRegistModelBufferFn } from "../base"
+import { AttribLocations, ShapeGeometry, getRegistModelBufferFn } from "../base"
 import model from "./model.json"
 
 const registBuffer = getRegistModelBufferFn(model)
-
-interface AttribLocations {
-  vertices: number
-  normals?: number
-}
 
 export class Icosahedron extends ShapeGeometry {
   constructor(gl: WebGL2RenderingContext) {

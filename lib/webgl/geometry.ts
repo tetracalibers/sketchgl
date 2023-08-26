@@ -14,7 +14,7 @@ interface Attribute {
   divisor?: number
 }
 
-interface DrawArg {
+export interface DrawArg {
   primitive?: "TRIANGLES" | "TRIANGLE_STRIP" | "TRIANGLE_FAN" | "LINES" | "LINE_STRIP" | "LINE_LOOP" | "POINTS"
   count?: number
   offset?: number

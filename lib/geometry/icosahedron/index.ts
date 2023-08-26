@@ -8,7 +8,7 @@ export class Icosahedron extends ShapeGeometry {
     super(gl)
   }
 
-  create(locations: AttribLocations) {
+  create(locations: Omit<AttribLocations, "uv">) {
     registBuffer(this._geometry, locations)
     this._geometry.setup()
   }

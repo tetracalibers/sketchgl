@@ -3,6 +3,7 @@ import { Geometry, DrawArg } from "./geometry"
 export interface AttribLocations {
   vertices: number
   normals?: number
+  uv?: number
 }
 
 type stringlike = string | number
@@ -10,6 +11,7 @@ type stringlike = string | number
 export interface Model {
   vertices: stringlike[]
   normals?: stringlike[]
+  uv?: stringlike[]
   indices: stringlike[]
 }
 
@@ -25,6 +27,14 @@ export const getRegistModelBufferFn = (model: Model) => (geometry: Geometry, loc
       location: locations.normals,
       components: 3,
       buffer: new Float32Array(model.normals.map(Number))
+    })
+  }
+
+  if (locations.uv && model.uv) {
+    geometry.registAttrib({
+      location: locations.uv,
+      components: 2,
+      buffer: new Float32Array(model.uv.map(Number))
     })
   }
 

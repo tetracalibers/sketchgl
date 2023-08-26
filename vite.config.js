@@ -11,7 +11,8 @@ export default defineConfig({
         "lib/camera.ts",
         "lib/webgl.ts",
         "lib/interactive.ts",
-        "lib/texture.ts"
+        "lib/texture.ts",
+        "lib/geometry.ts"
       ].map((path) => resolve(__dirname, path)),
       name: "sketchgl"
     },

@@ -1,6 +1,9 @@
 import { CanvasOptions, Context } from "./context"
 import { Clock } from "./clock"
 import { ControlUi } from "../gui/control-ui"
+import { ValueOf } from "../utility/object"
+
+type PromiseRecord = Record<string, Promise<unknown>>
 
 export interface SketchConfig {
   canvas: CanvasOptions & {
@@ -14,10 +17,11 @@ export interface SketchCanvas {
   gl: WebGL2RenderingContext
 }
 
-export interface Sketch {
+export interface Sketch<P = PromiseRecord> {
   drawOnFrame?: () => void
   drawOnInit?: () => void
   control?: (ui: ControlUi) => void
+  preload?: () => Record<string, Awaited<ValueOf<P>>>
 }
 
 export type SketchFn = (skCanvas: SketchCanvas) => Sketch
@@ -35,19 +39,29 @@ export class SketchGl {
       gl: glOptions
     })
 
-    const { drawOnFrame, drawOnInit, control } = sketchFn(context)
+    const sketch = sketchFn(context)
+
+    const { drawOnFrame, drawOnInit, control, preload } = sketch
     const drawOnResize = drawOnFrame || drawOnInit
 
     if (autoResize && drawOnResize) {
-      context.addAfterResize(drawOnResize)
+      context.addAfterResize(() => drawOnResize)
     }
     context.startResizeObserve()
 
-    drawOnInit && drawOnInit()
+    const start = () => {
+      drawOnInit && drawOnInit()
 
-    if (drawOnFrame) {
-      this.loopClock = new Clock()
-      this.loopClock.on("tick", drawOnFrame)
+      if (drawOnFrame) {
+        this.loopClock = new Clock()
+        this.loopClock.on("tick", drawOnFrame)
+      }
+    }
+
+    if (preload) {
+      Promise.all(Object.values(preload())).then(start)
+    } else {
+      start()
     }
 
     if (control) {

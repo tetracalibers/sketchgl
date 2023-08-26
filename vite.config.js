@@ -5,7 +5,9 @@ export default defineConfig({
   build: {
     lib: {
       // 複数のエントリーポイントのディクショナリや配列にもできます
-      entry: ["lib/index.ts", "lib/math.ts", "lib/camera.ts", "lib/webgl.ts"].map((path) => resolve(__dirname, path)),
+      entry: ["lib/index.ts", "lib/math.ts", "lib/camera.ts", "lib/webgl.ts", "lib/interactive.ts"].map((path) =>
+        resolve(__dirname, path)
+      ),
       name: "sketchgl"
     },
     rollupOptions: {

@@ -12,7 +12,8 @@ export default defineConfig({
         "lib/program.ts",
         "lib/interactive.ts",
         "lib/texture.ts",
-        "lib/geometry.ts"
+        "lib/geometry.ts",
+        "lib/renderer.ts"
       ].map((path) => resolve(__dirname, path)),
       name: "sketchgl"
     },

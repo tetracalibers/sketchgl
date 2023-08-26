@@ -19,6 +19,7 @@ export interface Sketch {
   drawOnInit?: () => void
   control?: (ui: ControlUi) => void
   preload?: Promise<unknown>[]
+  resize?: (() => void)[]
 }
 
 export type SketchFn = (skCanvas: SketchCanvas) => Sketch
@@ -38,10 +39,11 @@ export class SketchGl {
 
     const sketch = sketchFn(context)
 
-    const { drawOnFrame, drawOnInit, control, preload } = sketch
+    const { drawOnFrame, drawOnInit, control, preload, resize } = sketch
     const drawOnResize = drawOnFrame || drawOnInit
 
     if (autoResize && drawOnResize) {
+      resize && context.addAfterResize(...resize)
       context.addAfterResize(() => drawOnResize)
     }
     context.startResizeObserve()

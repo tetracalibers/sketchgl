@@ -9,7 +9,7 @@ export default defineConfig({
         "lib/index.ts",
         "lib/math.ts",
         "lib/camera.ts",
-        "lib/webgl.ts",
+        "lib/program.ts",
         "lib/interactive.ts",
         "lib/texture.ts",
         "lib/geometry.ts"

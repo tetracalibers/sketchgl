@@ -1,4 +1,4 @@
-import { Geometry, DrawArg } from "../webgl/geometry"
+import { Geometry, DrawArg } from "./geometry"
 
 export interface AttribLocations {
   vertices: number

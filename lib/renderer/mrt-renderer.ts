@@ -63,7 +63,7 @@ export class MRTRenderer {
     gl.bindFramebuffer(gl.FRAMEBUFFER, null)
   }
 
-  resize() {
+  resize = () => {
     const gl = this._gl
     const { width, height } = this._canvas
 

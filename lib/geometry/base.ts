@@ -9,7 +9,7 @@ type stringlike = string | number
 
 export interface Model {
   vertices: stringlike[]
-  normals: stringlike[]
+  normals?: stringlike[]
   indices: stringlike[]
 }
 
@@ -20,7 +20,7 @@ export const getRegistModelBufferFn = (model: Model) => (geometry: Geometry, loc
     buffer: new Float32Array(model.vertices.map(Number))
   })
 
-  if (locations.normals) {
+  if (locations.normals && model.normals) {
     geometry.registAttrib({
       location: locations.normals,
       components: 3,

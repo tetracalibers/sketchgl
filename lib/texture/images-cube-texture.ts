@@ -1,16 +1,23 @@
 import { keys } from "../utility/object"
+import { TextureBase } from "./base"
 
 type CubeSurface = "top" | "bottom" | "left" | "right" | "front" | "back"
 
 type CubeSurfaceImages = Record<CubeSurface, HTMLImageElement>
 
-export class ImagesCubeTexture {
-  private _gl: WebGL2RenderingContext
+export class ImagesCubeTexture extends TextureBase {
   private _images: CubeSurfaceImages
   private _texCubeMap: WebGLTexture | null = null
 
   constructor(gl: WebGL2RenderingContext, srcRecord: Record<CubeSurface, string>) {
-    this._gl = gl
+    super(gl)
+
+    this._params = {
+      TEXTURE_MAG_FILTER: "LINEAR",
+      TEXTURE_MIN_FILTER: "LINEAR",
+      TEXTURE_WRAP_S: "CLAMP_TO_EDGE",
+      TEXTURE_WRAP_T: "CLAMP_TO_EDGE"
+    }
 
     this._images = keys(srcRecord).reduce<CubeSurfaceImages>(
       (acc, name) => {
@@ -22,17 +29,20 @@ export class ImagesCubeTexture {
     )
   }
 
-  async setup() {
+  async load() {
     const images = this._images
 
     const promises = keys(images).map((name) => {
-      return new Promise<void>((resolve) => {
-        images[name].onload = () => resolve()
+      return new Promise((resolve) => {
+        images[name].onload = () => {
+          return resolve(this._texCubeMap)
+        }
       })
     })
 
     return Promise.all(promises).then(() => {
       this.generateCubeMap()
+      return this._texCubeMap
     })
   }
 
@@ -56,10 +66,10 @@ export class ImagesCubeTexture {
     gl.generateMipmap(gl.TEXTURE_CUBE_MAP)
 
     // テクスチャパラメータの設定
-    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
-    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
-    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
-    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
+    keys(this._params).forEach((key) => {
+      const value = this._params[key]
+      value && gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl[key], gl[value])
+    })
 
     this._texCubeMap = texture
 

@@ -6,7 +6,7 @@ export class HalfCanvasCoverPolygon extends ShapeGeometry {
     super(gl, model)
   }
 
-  create(locations: Omit<AttribLocations, "normals">) {
-    super.create(locations)
+  setLocations(locations: Omit<AttribLocations, "normals">) {
+    super.setLocations(locations)
   }
 }

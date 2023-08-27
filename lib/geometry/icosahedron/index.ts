@@ -6,7 +6,7 @@ export class Icosahedron extends ShapeGeometry {
     super(gl, model)
   }
 
-  create(locations: Omit<AttribLocations, "uv">) {
-    super.create(locations)
+  setLocations(locations: Omit<AttribLocations, "uv">) {
+    super.setLocations(locations)
   }
 }

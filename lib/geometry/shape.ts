@@ -92,7 +92,7 @@ export abstract class InstancedShapeGeometry implements Shape<InstancedDrawConfi
     this._instanceCount = instanceCount
   }
 
-  abstract _calcOffsets(instanceCount: number): { components: number; buffer: Float32Array }
+  abstract _calcOffsets(instanceCount: number): { components: number; buffer: Float32Array; divider: number }
 
   create(locations: AttribLocations) {
     this._attribRegister(this._geometry, locations)
@@ -101,8 +101,7 @@ export abstract class InstancedShapeGeometry implements Shape<InstancedDrawConfi
       const offset = this._calcOffsets(this._instanceCount)
       this._geometry.registAttrib("offset", {
         location: locations.offset,
-        components: offset.components,
-        buffer: offset.buffer
+        ...offset
       })
     }
 

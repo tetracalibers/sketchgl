@@ -1,6 +1,5 @@
-import { GeometryBuffer } from "./core/base"
-import { Geometry, DrawConfig } from "./core/geometry"
-import { InstancedDrawConfig, InstancedGeometry } from "./core/instanced-geometry"
+import { Geometry } from "./core/geometry"
+import { InstancedGeometry } from "./core/instanced-geometry"
 
 export interface AttribLocations {
   vertices: number

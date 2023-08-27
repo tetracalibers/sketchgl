@@ -16,7 +16,7 @@ export interface Model {
   indices?: stringlike[]
 }
 
-export const getRegistModelBufferFn =
+export const getRegistAttribFn =
   (model: Model) =>
   <G extends Geometry | InstancedGeometry>(geometry: G, locations: AttribLocations) => {
     geometry.registAttrib("vertice", {
@@ -40,11 +40,13 @@ export const getRegistModelBufferFn =
         buffer: new Float32Array(model.uv.map(Number))
       })
     }
-
-    if ("registIndices" in geometry && model.indices) {
-      geometry.registIndices(new Uint16Array(model.indices.map(Number)))
-    }
   }
+
+const getRegistIndicesFn = (model: Model) => (geometry: Geometry) => {
+  if (model.indices) {
+    geometry.registIndices(new Uint16Array(model.indices.map(Number)))
+  }
+}
 
 interface Shape<A> {
   create(locations: AttribLocations): void
@@ -54,15 +56,18 @@ interface Shape<A> {
 
 export class ShapeGeometry implements Shape<DrawConfig> {
   protected _geometry: Geometry
-  protected _register: ReturnType<typeof getRegistModelBufferFn>
+  protected _attribRegister: ReturnType<typeof getRegistAttribFn>
+  protected _indicesRegister: ReturnType<typeof getRegistIndicesFn>
 
   constructor(gl: WebGL2RenderingContext, model: Model) {
     this._geometry = new Geometry(gl)
-    this._register = getRegistModelBufferFn(model)
+    this._attribRegister = getRegistAttribFn(model)
+    this._indicesRegister = getRegistIndicesFn(model)
   }
 
   create(locations: AttribLocations) {
-    this._register(this._geometry, locations)
+    this._attribRegister(this._geometry, locations)
+    this._indicesRegister(this._geometry)
     this._geometry.setup()
   }
 
@@ -77,15 +82,15 @@ export class ShapeGeometry implements Shape<DrawConfig> {
 
 export class InstancedShapeGeometry implements Shape<InstancedDrawConfig> {
   protected _geometry: InstancedGeometry
-  protected _register: ReturnType<typeof getRegistModelBufferFn>
+  protected _attribRegister: ReturnType<typeof getRegistAttribFn>
 
   constructor(gl: WebGL2RenderingContext, model: Model) {
     this._geometry = new InstancedGeometry(gl)
-    this._register = getRegistModelBufferFn(model)
+    this._attribRegister = getRegistAttribFn(model)
   }
 
   create(locations: AttribLocations) {
-    this._register(this._geometry, locations)
+    this._attribRegister(this._geometry, locations)
     this._geometry.setup()
   }
 

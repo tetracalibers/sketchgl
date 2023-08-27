@@ -1,7 +1,7 @@
-import { AttribLocations, ShapeGeometry, getRegistModelBufferFn } from "../base"
+import { AttribLocations, ShapeGeometry, ShapeGeometryOption, getRegistModelBufferFn } from "../base"
 import { generateSphereData } from "./generate"
 
-interface SphereConfig {
+interface SphereConfig extends ShapeGeometryOption {
   radius: number
   segments: number
   rings: number
@@ -10,8 +10,8 @@ interface SphereConfig {
 export class Sphere extends ShapeGeometry {
   private registBuffer: ReturnType<typeof getRegistModelBufferFn>
 
-  constructor(gl: WebGL2RenderingContext, { radius, segments, rings }: SphereConfig) {
-    super(gl)
+  constructor(gl: WebGL2RenderingContext, { radius, segments, rings, instancing = false }: SphereConfig) {
+    super(gl, { instancing })
     const model = generateSphereData(radius, segments, rings)
     this.registBuffer = getRegistModelBufferFn(model)
   }

@@ -76,7 +76,7 @@ const getRegistIndicesFn = (model: Model) => (geometry: Geometry) => {
 }
 
 interface Shape<A> {
-  create(locations: AttribLocations): void
+  setLocations(locations: AttribLocations): void
   bind(): void
   draw(args: A): void
 }
@@ -92,7 +92,7 @@ export class ShapeGeometry implements Shape<DrawConfig> {
     this._indicesRegister = getRegistIndicesFn(model)
   }
 
-  create(locations: AttribLocations) {
+  setLocations(locations: AttribLocations) {
     this._attribRegister(this._geometry, locations)
     this._indicesRegister(this._geometry)
     this._geometry.setup()
@@ -120,7 +120,7 @@ export abstract class InstancedShapeGeometry implements Shape<InstancedDrawConfi
 
   abstract _calcOffsets(instanceCount: number): { components: number; buffer: Float32Array; divisor: number }
 
-  create(locations: AttribLocations) {
+  setLocations(locations: AttribLocations) {
     this._attribRegister(this._geometry, locations)
 
     if (locations.offset) {

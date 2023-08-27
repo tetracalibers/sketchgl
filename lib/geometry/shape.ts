@@ -107,27 +107,42 @@ export class ShapeGeometry implements Shape<DrawConfig> {
   }
 }
 
+interface InstanceOffset {
+  components: number
+  buffer: Float32Array
+  divisor: number
+}
+
+export interface InstanceData {
+  instanceCount: number
+  calcOffset: (instanceCount: number) => InstanceOffset
+}
+
 export abstract class InstancedShapeGeometry implements Shape<InstancedDrawConfig> {
   protected _geometry: InstancedGeometry
   protected _attribRegister: ReturnType<typeof getRegistAttribFn>
   protected _instanceCount: number
+  protected _offset: InstanceOffset
 
-  constructor(gl: WebGL2RenderingContext, model: Model, instanceCount: number, { for2d = false } = {}) {
+  constructor(
+    gl: WebGL2RenderingContext,
+    model: Model,
+    { instanceCount, calcOffset }: InstanceData,
+    { for2d = false } = {}
+  ) {
     this._geometry = new InstancedGeometry(gl)
     this._attribRegister = for2d ? getRegist2dAttribFn(model) : getRegistAttribFn(model)
     this._instanceCount = instanceCount
+    this._offset = calcOffset(instanceCount)
   }
-
-  abstract _calcOffsets(instanceCount: number): { components: number; buffer: Float32Array; divisor: number }
 
   setLocations(locations: AttribLocations) {
     this._attribRegister(this._geometry, locations)
 
     if (locations.offset) {
-      const offset = this._calcOffsets(this._instanceCount)
       this._geometry.registAttrib("offset", {
         location: locations.offset,
-        ...offset
+        ...this._offset
       })
     }
 

@@ -1,4 +1,4 @@
-import { ShapeGeometry } from "../base"
+import { ShapeGeometry } from "../shape"
 import { generateSphereData } from "./generate"
 
 interface SphereConfig {

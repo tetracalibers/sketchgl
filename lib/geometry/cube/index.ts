@@ -1,4 +1,4 @@
-import { ShapeGeometry } from "../base"
+import { ShapeGeometry } from "../shape"
 import { generateCubeData } from "./generate"
 
 interface CubeConfig {

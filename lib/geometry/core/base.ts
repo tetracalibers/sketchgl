@@ -7,7 +7,7 @@ export type DrawPrimitive =
   | "LINE_LOOP"
   | "POINTS"
 
-export type AttributeName = "vertice" | "normal" | "uv" | "color"
+export type AttributeName = "vertice" | "normal" | "uv" | "color" | "offset"
 
 export interface AttributeArg {
   buffer: Float32Array

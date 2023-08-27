@@ -34,7 +34,7 @@ export class InstancedCircle extends InstancedShapeGeometry {
     return {
       components: 2,
       buffer: new Float32Array(data),
-      divider: 1
+      divisor: 1
     }
   }
 }

@@ -17,6 +17,32 @@ export interface Model {
   indices?: stringlike[]
 }
 
+const getRegist2dAttribFn =
+  (model: Model) =>
+  <G extends Geometry | InstancedGeometry>(geometry: G, locations: AttribLocations) => {
+    geometry.registAttrib("vertice", {
+      location: locations.vertices,
+      components: 2,
+      buffer: new Float32Array(model.vertices.map(Number))
+    })
+
+    if (locations.normals && model.normals) {
+      geometry.registAttrib("normal", {
+        location: locations.normals,
+        components: 2,
+        buffer: new Float32Array(model.normals.map(Number))
+      })
+    }
+
+    if (locations.uv && model.uv) {
+      geometry.registAttrib("uv", {
+        location: locations.uv,
+        components: 2,
+        buffer: new Float32Array(model.uv.map(Number))
+      })
+    }
+  }
+
 export const getRegistAttribFn =
   (model: Model) =>
   <G extends Geometry | InstancedGeometry>(geometry: G, locations: AttribLocations) => {
@@ -60,9 +86,9 @@ export class ShapeGeometry implements Shape<DrawConfig> {
   protected _attribRegister: ReturnType<typeof getRegistAttribFn>
   protected _indicesRegister: ReturnType<typeof getRegistIndicesFn>
 
-  constructor(gl: WebGL2RenderingContext, model: Model) {
+  constructor(gl: WebGL2RenderingContext, model: Model, { for2d = false } = {}) {
     this._geometry = new Geometry(gl)
-    this._attribRegister = getRegistAttribFn(model)
+    this._attribRegister = for2d ? getRegist2dAttribFn(model) : getRegistAttribFn(model)
     this._indicesRegister = getRegistIndicesFn(model)
   }
 
@@ -86,9 +112,9 @@ export abstract class InstancedShapeGeometry implements Shape<InstancedDrawConfi
   protected _attribRegister: ReturnType<typeof getRegistAttribFn>
   protected _instanceCount: number
 
-  constructor(gl: WebGL2RenderingContext, model: Model, instanceCount: number) {
+  constructor(gl: WebGL2RenderingContext, model: Model, instanceCount: number, { for2d = false } = {}) {
     this._geometry = new InstancedGeometry(gl)
-    this._attribRegister = getRegistAttribFn(model)
+    this._attribRegister = for2d ? getRegist2dAttribFn(model) : getRegistAttribFn(model)
     this._instanceCount = instanceCount
   }
 

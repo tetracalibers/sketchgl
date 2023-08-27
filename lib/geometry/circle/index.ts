@@ -9,7 +9,7 @@ interface CircleConfig {
 export class Circle extends ShapeGeometry {
   constructor(gl: WebGL2RenderingContext, { radius, segments }: CircleConfig) {
     const model = generateCircleData(radius, segments)
-    super(gl, model)
+    super(gl, model, { for2d: true })
   }
 }
 
@@ -20,7 +20,7 @@ interface InstancedCircleConfig extends CircleConfig {
 export class InstancedCircle extends InstancedShapeGeometry {
   constructor(gl: WebGL2RenderingContext, { radius, segments, instanceCount }: InstancedCircleConfig) {
     const model = generateCircleData(radius, segments)
-    super(gl, model, instanceCount)
+    super(gl, model, instanceCount, { for2d: true })
   }
 
   _calcOffsets(instanceCount: number) {

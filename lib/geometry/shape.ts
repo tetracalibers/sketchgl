@@ -13,7 +13,7 @@ export interface Model {
   vertices: stringlike[]
   normals?: stringlike[]
   uv?: stringlike[]
-  indices: stringlike[]
+  indices?: stringlike[]
 }
 
 export const getRegistModelBufferFn =
@@ -41,7 +41,7 @@ export const getRegistModelBufferFn =
       })
     }
 
-    if ("registIndices" in geometry) {
+    if ("registIndices" in geometry && model.indices) {
       geometry.registIndices(new Uint16Array(model.indices.map(Number)))
     }
   }

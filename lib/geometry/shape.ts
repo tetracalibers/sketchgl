@@ -1,3 +1,4 @@
+import { RequiredField } from "../utility/object"
 import { DrawConfig, Geometry } from "./core/geometry"
 import { InstancedDrawConfig, InstancedGeometry } from "./core/instanced-geometry"
 
@@ -136,15 +137,13 @@ export abstract class InstancedShapeGeometry implements Shape<InstancedDrawConfi
     this._offset = calcOffset(instanceCount)
   }
 
-  setLocations(locations: AttribLocations) {
+  setLocations(locations: RequiredField<AttribLocations, "offset">) {
     this._attribRegister(this._geometry, locations)
 
-    if (locations.offset) {
-      this._geometry.registAttrib("offset", {
-        location: locations.offset,
-        ...this._offset
-      })
-    }
+    this._geometry.registAttrib("offset", {
+      location: locations.offset,
+      ...this._offset
+    })
 
     this._geometry.setup()
   }

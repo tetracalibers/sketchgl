@@ -64,7 +64,7 @@ export abstract class ShapeGeometry {
     this._geometry.bind()
   }
 
-  draw(args: Parameters<(typeof this._geometry)["draw"]>) {
-    this._geometry.draw(args)
+  get draw() {
+    return this._geometry.draw
   }
 }

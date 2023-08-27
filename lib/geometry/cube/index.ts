@@ -1,21 +1,13 @@
-import { AttribLocations, ShapeGeometry, ShapeGeometryOption, getRegistModelBufferFn } from "../base"
+import { ShapeGeometry } from "../base"
 import { generateCubeData } from "./generate"
 
-interface CubeConfig extends ShapeGeometryOption {
+interface CubeConfig {
   size: number
 }
 
 export class Cube extends ShapeGeometry {
-  private registBuffer: ReturnType<typeof getRegistModelBufferFn>
-
-  constructor(gl: WebGL2RenderingContext, { size, instancing = false }: CubeConfig) {
-    super(gl, { instancing })
+  constructor(gl: WebGL2RenderingContext, { size }: CubeConfig) {
     const model = generateCubeData(size)
-    this.registBuffer = getRegistModelBufferFn(model)
-  }
-
-  create(locations: AttribLocations) {
-    this.registBuffer(this._geometry, locations)
-    this._geometry.setup()
+    super(gl, model)
   }
 }

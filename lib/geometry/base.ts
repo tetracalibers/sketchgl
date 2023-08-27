@@ -1,5 +1,5 @@
-import { Geometry } from "./core/geometry"
-import { InstancedGeometry } from "./core/instanced-geometry"
+import { DrawConfig, Geometry } from "./core/geometry"
+import { InstancedDrawConfig, InstancedGeometry } from "./core/instanced-geometry"
 
 export interface AttribLocations {
   vertices: number
@@ -14,10 +14,6 @@ export interface Model {
   normals?: stringlike[]
   uv?: stringlike[]
   indices: stringlike[]
-}
-
-export interface ShapeGeometryOption {
-  instancing?: boolean
 }
 
 export const getRegistModelBufferFn =
@@ -50,20 +46,54 @@ export const getRegistModelBufferFn =
     }
   }
 
-export abstract class ShapeGeometry {
-  protected _geometry: InstancedGeometry | Geometry
+interface Shape<A> {
+  create(locations: AttribLocations): void
+  bind(): void
+  draw(args: A): void
+}
 
-  constructor(gl: WebGL2RenderingContext, { instancing = false }: ShapeGeometryOption) {
-    this._geometry = instancing ? new InstancedGeometry(gl) : new Geometry(gl)
+export class ShapeGeometry implements Shape<DrawConfig> {
+  protected _geometry: Geometry
+  protected _register: ReturnType<typeof getRegistModelBufferFn>
+
+  constructor(gl: WebGL2RenderingContext, model: Model) {
+    this._geometry = new Geometry(gl)
+    this._register = getRegistModelBufferFn(model)
   }
 
-  abstract create(locations: AttribLocations): void
+  create(locations: AttribLocations) {
+    this._register(this._geometry, locations)
+    this._geometry.setup()
+  }
 
   bind() {
     this._geometry.bind()
   }
 
-  get draw() {
-    return this._geometry.draw
+  draw(args: DrawConfig) {
+    this._geometry.draw(args)
+  }
+}
+
+export class InstancedShapeGeometry implements Shape<InstancedDrawConfig> {
+  protected _geometry: InstancedGeometry
+  protected _register: ReturnType<typeof getRegistModelBufferFn>
+
+  constructor(gl: WebGL2RenderingContext, model: Model) {
+    this._geometry = new InstancedGeometry(gl)
+    this._register = getRegistModelBufferFn(model)
+  }
+
+  create(locations: AttribLocations) {
+    this._register(this._geometry, locations)
+    this._geometry.setup()
+  }
+
+  bind() {
+    this._geometry.bind()
+  }
+
+  draw(args: InstancedDrawConfig) {
+    this._geometry.draw(args)
   }
 }

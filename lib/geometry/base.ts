@@ -1,4 +1,4 @@
-import { Geometry, DrawArg } from "./geometry"
+import { Geometry, DrawConfig } from "./core/geometry"
 
 export interface AttribLocations {
   vertices: number
@@ -16,14 +16,14 @@ export interface Model {
 }
 
 export const getRegistModelBufferFn = (model: Model) => (geometry: Geometry, locations: AttribLocations) => {
-  geometry.registAttrib({
+  geometry.registAttrib("vertice", {
     location: locations.vertices,
     components: 3,
     buffer: new Float32Array(model.vertices.map(Number))
   })
 
   if (locations.normals && model.normals) {
-    geometry.registAttrib({
+    geometry.registAttrib("normal", {
       location: locations.normals,
       components: 3,
       buffer: new Float32Array(model.normals.map(Number))
@@ -31,7 +31,7 @@ export const getRegistModelBufferFn = (model: Model) => (geometry: Geometry, loc
   }
 
   if (locations.uv && model.uv) {
-    geometry.registAttrib({
+    geometry.registAttrib("uv", {
       location: locations.uv,
       components: 2,
       buffer: new Float32Array(model.uv.map(Number))
@@ -54,7 +54,7 @@ export abstract class ShapeGeometry {
     this._geometry.bind()
   }
 
-  draw(args: DrawArg) {
+  draw(args: DrawConfig) {
     this._geometry.draw(args)
   }
 }

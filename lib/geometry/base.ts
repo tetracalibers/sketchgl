@@ -64,7 +64,7 @@ export abstract class ShapeGeometry {
     this._geometry.bind()
   }
 
-  draw(args: typeof this._geometry extends InstancedGeometry ? InstancedDrawConfig : DrawConfig) {
+  draw(args: Parameters<(typeof this._geometry)["draw"]>) {
     this._geometry.draw(args)
   }
 }

@@ -1,4 +1,4 @@
-export { Geometry } from "./geometry/geometry"
+export { Geometry } from "./geometry/core/geometry"
 
 export { Icosahedron } from "./geometry/icosahedron/index"
 export { Sphere } from "./geometry/sphere/index"

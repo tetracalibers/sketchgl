@@ -52,7 +52,7 @@ export const getRegistModelBufferFn =
   }
 
 export abstract class ShapeGeometry {
-  protected _geometry: GeometryBuffer
+  protected _geometry: InstancedGeometry | Geometry
 
   constructor(gl: WebGL2RenderingContext, { instancing = false }: ShapeGeometryOption) {
     this._geometry = instancing ? new InstancedGeometry(gl) : new Geometry(gl)

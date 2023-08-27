@@ -13,13 +13,17 @@ export class Circle extends ShapeGeometry {
   }
 }
 
+interface InstancedCircleConfig extends CircleConfig {
+  instanceCount: number
+}
+
 export class InstancedCircle extends InstancedShapeGeometry {
-  constructor(gl: WebGL2RenderingContext, { radius, segments }: CircleConfig) {
+  constructor(gl: WebGL2RenderingContext, { radius, segments, instanceCount }: InstancedCircleConfig) {
     const model = generateCircleData(radius, segments)
-    super(gl, model)
+    super(gl, model, instanceCount)
   }
 
-  calcOffsets(instanceCount: number) {
+  _calcOffsets(instanceCount: number) {
     const data = []
 
     for (let i = 0; i < instanceCount; i++) {
@@ -27,6 +31,9 @@ export class InstancedCircle extends InstancedShapeGeometry {
       data.push(Math.cos(theta), Math.sin(theta))
     }
 
-    return data
+    return {
+      components: 2,
+      buffer: new Float32Array(data)
+    }
   }
 }

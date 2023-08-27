@@ -5,6 +5,7 @@ export interface AttribLocations {
   vertices: number
   normals?: number
   uv?: number
+  offset?: number
 }
 
 type stringlike = string | number
@@ -80,17 +81,31 @@ export class ShapeGeometry implements Shape<DrawConfig> {
   }
 }
 
-export class InstancedShapeGeometry implements Shape<InstancedDrawConfig> {
+export abstract class InstancedShapeGeometry implements Shape<InstancedDrawConfig> {
   protected _geometry: InstancedGeometry
   protected _attribRegister: ReturnType<typeof getRegistAttribFn>
+  protected _instanceCount: number
 
-  constructor(gl: WebGL2RenderingContext, model: Model) {
+  constructor(gl: WebGL2RenderingContext, model: Model, instanceCount: number) {
     this._geometry = new InstancedGeometry(gl)
     this._attribRegister = getRegistAttribFn(model)
+    this._instanceCount = instanceCount
   }
+
+  abstract _calcOffsets(instanceCount: number): { components: number; buffer: Float32Array }
 
   create(locations: AttribLocations) {
     this._attribRegister(this._geometry, locations)
+
+    if (locations.offset) {
+      const offset = this._calcOffsets(this._instanceCount)
+      this._geometry.registAttrib("offset", {
+        location: locations.offset,
+        components: offset.components,
+        buffer: offset.buffer
+      })
+    }
+
     this._geometry.setup()
   }
 
@@ -98,7 +113,7 @@ export class InstancedShapeGeometry implements Shape<InstancedDrawConfig> {
     this._geometry.bind()
   }
 
-  draw(args: InstancedDrawConfig) {
-    this._geometry.draw(args)
+  draw(args: Omit<InstancedDrawConfig, "instanceCount">) {
+    this._geometry.draw({ ...args, instanceCount: this._instanceCount })
   }
 }

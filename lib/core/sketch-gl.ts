@@ -25,19 +25,10 @@ export interface Sketch {
 export type SketchFn = (skCanvas: SketchCanvas) => Sketch
 
 export class SketchGl {
-  private loopClock?: Clock
+  protected loopClock?: Clock
 
-  constructor(skCanvas: SketchConfig, sketchFn: SketchFn) {
-    const { canvas: _canvas, gl: glOptions } = skCanvas
-    const { el, ...canvasOptions } = _canvas
+  protected constructor(context: Context, sketch: Sketch, canvasOptions: CanvasOptions) {
     const { autoResize } = canvasOptions
-
-    const context = new Context(el, {
-      canvas: canvasOptions,
-      gl: glOptions
-    })
-
-    const sketch = sketchFn(context)
 
     const { drawOnFrame, drawOnInit, control, preload, resize } = sketch
     const drawOnResize = drawOnFrame || drawOnInit
@@ -70,6 +61,16 @@ export class SketchGl {
   }
 
   static init(skCanvas: SketchConfig, sketchFn: SketchFn) {
-    new SketchGl(skCanvas, sketchFn)
+    const { canvas: _canvas, gl: glOptions } = skCanvas
+    const { el, ...canvasOptions } = _canvas
+
+    const context = new Context(el, {
+      canvas: canvasOptions,
+      gl: glOptions
+    })
+
+    const sketch = sketchFn(context)
+
+    new SketchGl(context, sketch, canvasOptions)
   }
 }

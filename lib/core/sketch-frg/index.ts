@@ -31,6 +31,7 @@ export class SketchFrg extends SketchGl {
 
     const _program = new Program(gl)
     _program.attach(vert, frag)
+    _program.activate()
 
     const program = _program.get()
     if (!program) throw new Error("Program is not available")

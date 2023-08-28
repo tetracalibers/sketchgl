@@ -5,6 +5,7 @@ export type CanvasOptions = {
   height?: number
   fitScreen?: boolean
   fitSquare?: boolean
+  fitImage?: HTMLImageElement
   autoResize?: boolean
 }
 
@@ -29,7 +30,7 @@ export class Context {
   }
 
   private initCanvas(options: ContextOptions) {
-    const { width, height, autoResize, fitScreen, fitSquare } = options
+    const { width, height, autoResize, fitScreen, fitSquare, fitImage } = options
     if (width) this.canvas.width = width
     if (height) this.canvas.height = height
 
@@ -40,6 +41,11 @@ export class Context {
     if (fitScreen) {
       this.fitScreen()
       autoResize && this._resizeHandlers.push(this.fitScreen)
+    }
+    if (fitImage) {
+      const img = fitImage
+      this.fitImage(img)
+      autoResize && this._resizeHandlers.push(() => this.fitImage(img))
     }
   }
 
@@ -71,6 +77,28 @@ export class Context {
 
   fitScreen = () => {
     this.setSize(window.innerWidth, window.innerHeight)
+  }
+
+  fitImage = (img: HTMLImageElement) => {
+    const imgAspect = img.width / img.height
+    const fullW = window.innerWidth
+    const fullH = window.innerHeight
+    const windowAspect = fullW / fullH
+    // 正方形画像
+    if (imgAspect === 1) {
+      if (img.width < fullW) {
+        windowAspect > 1 ? this.setSize(fullW, fullW) : this.setSize(fullH, fullH)
+      } else {
+        this.setSize(img.width, img.width)
+      }
+      return
+    }
+    // 長方形画像は、スクリーンからはみ出ないようにする
+    if (imgAspect > windowAspect) {
+      this.setSize(fullW, fullW / imgAspect)
+    } else {
+      this.setSize(fullH * imgAspect, fullH)
+    }
   }
 
   startResizeObserve() {

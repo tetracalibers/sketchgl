@@ -1,2 +1,2 @@
-export { SketchGl } from "./core/instance"
-export type { SketchFn, SketchConfig } from "./core/instance"
+export { SketchGl } from "./core/sketch-gl"
+export type { SketchFn, SketchConfig } from "./core/sketch-gl"

@@ -36,8 +36,8 @@ export class Context {
     options?.canvas && this.initCanvas(options.canvas)
   }
 
-  private initCanvas(options: ContextOptions) {
-    const { width, height, autoResize, fit } = options
+  private initCanvas({ autoResize = true, ...options }: ContextOptions) {
+    const { width, height, fit } = options
     if (width) this.canvas.width = width
     if (height) this.canvas.height = height
 

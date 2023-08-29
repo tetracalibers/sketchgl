@@ -50,4 +50,8 @@ export class ImageTexture extends TextureBase {
     gl.bindTexture(gl.TEXTURE_2D, this._texture)
     gl.uniform1i(location, unit)
   }
+
+  get img() {
+    return this._image
+  }
 }

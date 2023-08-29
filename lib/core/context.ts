@@ -3,8 +3,7 @@ export type ResizeCallback = () => void
 export type CanvasOptions = {
   width?: number
   height?: number
-  fitScreen?: boolean
-  fitSquare?: boolean
+  fit?: "screen" | "square"
   autoResize?: boolean
 }
 
@@ -38,11 +37,11 @@ export class Context {
   }
 
   private initCanvas(options: ContextOptions) {
-    const { width, height, autoResize, fitScreen, fitSquare } = options
+    const { width, height, autoResize, fit } = options
     if (width) this.canvas.width = width
     if (height) this.canvas.height = height
 
-    if (fitSquare) {
+    if (fit === "square") {
       this.fitSquare()
       if (autoResize) {
         this._scaleCanvasMethod = {
@@ -50,9 +49,7 @@ export class Context {
           fn: this.fitSquare
         }
       }
-    }
-
-    if (fitScreen) {
+    } else if (fit === "screen") {
       this.fitScreen()
       if (autoResize) {
         this._scaleCanvasMethod = {

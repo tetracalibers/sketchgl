@@ -5,8 +5,13 @@ export type CanvasOptions = {
   height?: number
   fitScreen?: boolean
   fitSquare?: boolean
-  fitImage?: HTMLImageElement
   autoResize?: boolean
+}
+
+type ScaleCanvasMethod<A = any> = {
+  type: "fit-screen" | "fit-square" | "fit-image"
+  fn: (params: A) => void
+  params?: A
 }
 
 type ContextOptions = CanvasOptions
@@ -14,7 +19,10 @@ type ContextOptions = CanvasOptions
 export class Context {
   private _canvas: HTMLCanvasElement
   private _gl: WebGL2RenderingContext
-  private _resizeHandlers: ResizeCallback[] = []
+  private _scaleCanvasMethod?: ScaleCanvasMethod
+  private _beforeResize: ResizeCallback[] = []
+  private _afterResize: ResizeCallback[] = []
+  private _resizeObserber?: ResizeObserver
 
   constructor(el: string | HTMLCanvasElement, options?: { canvas?: ContextOptions; gl?: WebGLContextAttributes }) {
     const canvas = typeof el === "string" ? <HTMLCanvasElement>document.getElementById(el) : el
@@ -30,31 +38,37 @@ export class Context {
   }
 
   private initCanvas(options: ContextOptions) {
-    const { width, height, autoResize, fitScreen, fitSquare, fitImage } = options
+    const { width, height, autoResize, fitScreen, fitSquare } = options
     if (width) this.canvas.width = width
     if (height) this.canvas.height = height
 
     if (fitSquare) {
       this.fitSquare()
-      autoResize && this._resizeHandlers.push(this.fitSquare)
+      if (autoResize) {
+        this._scaleCanvasMethod = {
+          type: "fit-square",
+          fn: this.fitSquare
+        }
+      }
     }
+
     if (fitScreen) {
       this.fitScreen()
-      autoResize && this._resizeHandlers.push(this.fitScreen)
-    }
-    if (fitImage) {
-      const img = fitImage
-      this.fitImage(img)
-      autoResize && this._resizeHandlers.push(() => this.fitImage(img))
+      if (autoResize) {
+        this._scaleCanvasMethod = {
+          type: "fit-screen",
+          fn: this.fitScreen
+        }
+      }
     }
   }
 
   addAfterResize(...fn: ResizeCallback[]) {
-    this._resizeHandlers.push(...fn)
+    this._afterResize.push(...fn)
   }
 
   addBeforeResize(...fn: ResizeCallback[]) {
-    this._resizeHandlers.unshift(...fn)
+    this._beforeResize.push(...fn)
   }
 
   setSize(width: number, height: number) {
@@ -79,7 +93,7 @@ export class Context {
     this.setSize(window.innerWidth, window.innerHeight)
   }
 
-  fitImage = (img: HTMLImageElement) => {
+  private _fitImage = (img: HTMLImageElement) => {
     const imgAspect = img.width / img.height
     const fullW = window.innerWidth
     const fullH = window.innerHeight
@@ -102,15 +116,30 @@ export class Context {
   }
 
   startResizeObserve() {
-    if (!this._resizeHandlers.length) return
+    const resizeFn = () => {
+      this._beforeResize.forEach((fn) => fn())
+      if (this._scaleCanvasMethod) {
+        const { fn, params } = this._scaleCanvasMethod
+        fn(params)
+      }
+      this._afterResize.forEach((fn) => fn())
+    }
 
-    const resizeFn = this._resizeHandlers.reduce((prev, curr) => () => {
-      prev()
-      curr()
-    })
+    if (this._resizeObserber) {
+      this._resizeObserber.unobserve(document.body)
+    }
 
-    const obserber = new ResizeObserver(resizeFn)
-    obserber.observe(document.body)
+    this._resizeObserber = new ResizeObserver(resizeFn)
+    this._resizeObserber.observe(document.body)
+  }
+
+  setFitImage(img: HTMLImageElement) {
+    this._scaleCanvasMethod = {
+      type: "fit-image",
+      fn: this._fitImage,
+      params: img
+    }
+    this.startResizeObserve()
   }
 
   get canvas() {

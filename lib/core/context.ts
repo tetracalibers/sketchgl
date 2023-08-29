@@ -130,7 +130,7 @@ export class Context {
     this._resizeObserber.observe(document.body)
   }
 
-  setFitImage(img: HTMLImageElement) {
+  setFitImage = (img: HTMLImageElement) => {
     this._scaleCanvasMethod = {
       type: "fit-image",
       fn: this._fitImage,

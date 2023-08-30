@@ -17,6 +17,7 @@ export class MRTRenderer extends FrameBufferRendererBase {
   ) {
     super(gl, canvas, vert, frag, options)
     this._texCount = options.texCount
+    this.init()
     this.bindColorTexture()
   }
 

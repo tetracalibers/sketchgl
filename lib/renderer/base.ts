@@ -19,8 +19,6 @@ export abstract class FrameBufferRendererBase {
 
     this._program = new Program(gl)
     this._program.attach(vert, frag)
-
-    this.init()
   }
 
   protected abstract resizeColorTexture(width: number, height: number): void

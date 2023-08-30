@@ -19,6 +19,7 @@ export interface Sketch {
   drawOnInit?: () => void
   control?: (ui: ControlUi) => void
   preload?: Promise<unknown>[]
+  preloaded?: Array<() => void>
   resize?: (() => void)[]
 }
 
@@ -30,7 +31,7 @@ export class SketchGl {
   protected constructor(context: Context, sketch: Sketch, canvasOptions: CanvasOptions) {
     const { autoResize } = canvasOptions
 
-    const { drawOnFrame, drawOnInit, control, preload, resize } = sketch
+    const { drawOnFrame, drawOnInit, control, preload, preloaded, resize } = sketch
     const drawOnResize = drawOnFrame || drawOnInit
 
     if (autoResize && drawOnResize) {
@@ -40,6 +41,10 @@ export class SketchGl {
     context.startResizeObserve()
 
     const start = () => {
+      if (preloaded) {
+        preloaded.forEach((fn) => fn())
+      }
+
       drawOnInit && drawOnInit()
 
       if (drawOnFrame) {

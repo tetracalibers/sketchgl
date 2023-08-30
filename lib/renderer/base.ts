@@ -21,7 +21,6 @@ export abstract class FrameBufferRendererBase {
     this._program.attach(vert, frag)
 
     this.init()
-    this.bindColorTexture()
   }
 
   protected abstract resizeColorTexture(width: number, height: number): void

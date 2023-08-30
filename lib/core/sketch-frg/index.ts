@@ -33,7 +33,7 @@ export class SketchFrg extends SketchGl {
     _program.attach(vert, frag)
     _program.activate()
 
-    const program = _program.get()
+    const program = _program.glProgram
     if (!program) throw new Error("Program is not available")
 
     const renderToCanvas = () => gl.drawArrays(gl.TRIANGLE_FAN, 0, 3)

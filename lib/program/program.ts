@@ -46,11 +46,7 @@ export class Program {
     gl.useProgram(this._program)
   }
 
-  get() {
-    return this._program
-  }
-
-  get raw() {
+  get glProgram() {
     return this._program
   }
 }

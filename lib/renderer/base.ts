@@ -91,6 +91,6 @@ export abstract class FrameBufferRendererBase {
   }
 
   get glProgramForOffscreen() {
-    return this._program.get()
+    return this._program.glProgram
   }
 }

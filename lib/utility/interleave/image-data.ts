@@ -17,30 +17,30 @@ type GeneratorOption = {
 
 type Generator = (args: GeneratorOption) => number[]
 
-type GeneratorMap = Map<
-  string,
+type GeneratorMap<K extends string> = Map<
+  K,
   {
     dimension: Dimension
     generator: Generator
-  }
+  } | null
 >
 
-export class ImageInterleavedData {
+export class ImageInterleavedData<K extends string> {
   private _imgCvs: ImageCanvas
-  private _generators: GeneratorMap
+  private _generators: GeneratorMap<K>
   // 画像データの色は必ず持たせるので、最低でも4
   private _totalDimensions = 0
 
-  constructor(imgCvs: ImageCanvas) {
+  constructor(imgCvs: ImageCanvas, keys: K[]) {
     this._imgCvs = imgCvs
-    this._generators = new Map()
+    this._generators = new Map(keys.map((key) => [key, null]))
   }
 
-  useImageColorAs(name: string) {
+  useImageColorAs(name: K) {
     this.add(name, 4, ({ color }) => [color.r, color.g, color.b, color.a])
   }
 
-  add(name: string, dimension: Dimension, generator: Generator) {
+  add(name: K, dimension: Dimension, generator: Generator) {
     this._totalDimensions += dimension
     this._generators.set(name, { dimension, generator })
   }
@@ -71,7 +71,9 @@ export class ImageInterleavedData {
         }
 
         let index = 0
-        this._generators.forEach(({ dimension, generator }) => {
+        this._generators.forEach((value) => {
+          if (!value) return
+          const { dimension, generator } = value
           const offset = index + 4
           const result = generator(args)
           for (let k = 0; k < dimension; ++k) {
@@ -85,7 +87,7 @@ export class ImageInterleavedData {
     return array
   }
 
-  get order() {
+  get keys() {
     return [...this._generators.keys()]
   }
 }

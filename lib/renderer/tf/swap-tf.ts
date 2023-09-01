@@ -1,5 +1,4 @@
 import { Program } from "../../program"
-import { TFRendererBase } from "./base"
 
 interface AttribLocation {
   location: number
@@ -18,7 +17,8 @@ interface VAOSource {
   buffers: BufferSource[]
 }
 
-export class SwapTFRenderer<V extends string> extends TFRendererBase {
+export class SwapTFRenderer<V extends string> {
+  private _gl: WebGL2RenderingContext
   private _programsFor: {
     update: Program
     render: Program
@@ -40,7 +40,7 @@ export class SwapTFRenderer<V extends string> extends TFRendererBase {
   private _totalComponents = 0
 
   constructor(gl: WebGL2RenderingContext, varyings: V[]) {
-    super(gl)
+    this._gl = gl
     this._programsFor = {
       update: new Program(gl),
       render: new Program(gl)

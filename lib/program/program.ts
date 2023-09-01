@@ -8,7 +8,7 @@ export class Program {
     this._gl = gl
   }
 
-  attach(vsrc: string, fsrc: string) {
+  attach(vsrc: string, fsrc: string, varyings?: string[]) {
     const gl = this._gl
 
     const glprogram = gl.createProgram()
@@ -26,6 +26,11 @@ export class Program {
     // プログラムオブジェクトにシェーダを割り当てる
     gl.attachShader(glprogram, vs)
     gl.attachShader(glprogram, fs)
+
+    if (varyings && varyings.length > 0) {
+      // リンクする前に実行
+      gl.transformFeedbackVaryings(glprogram, varyings, gl.SEPARATE_ATTRIBS)
+    }
 
     // シェーダをリンク
     gl.linkProgram(glprogram)

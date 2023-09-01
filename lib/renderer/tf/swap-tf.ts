@@ -122,7 +122,7 @@ export class SwapTFRenderer<V extends string> extends TFRendererBase {
     const totalComponents = this._totalComponents
 
     const updateAttribs = this._varyings
-      .map(this._attribsFor.update.get)
+      .map((key) => this._attribsFor.update.get(key))
       .filter((a): a is AttribLocation => a !== undefined)
 
     const table = [
@@ -168,7 +168,7 @@ export class SwapTFRenderer<V extends string> extends TFRendererBase {
       }
     ]
 
-    table.map(this.bindAttribs)
+    table.map((obj) => this.bindAttribs(obj))
   }
 
   private bindAttribs({ vao, buffers }: VAOSource) {

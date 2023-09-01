@@ -81,6 +81,7 @@ export class SwapTFRenderer<V extends string> extends TFRendererBase {
 
   startUpdate() {
     const gl = this._gl
+    gl.useProgram(this._programsFor.update.glProgram)
     gl.bindVertexArray(this._vaos[this._read])
     gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER, 0, this._buffers[this._write])
     gl.enable(gl.RASTERIZER_DISCARD)
@@ -96,6 +97,7 @@ export class SwapTFRenderer<V extends string> extends TFRendererBase {
 
   startRender() {
     const gl = this._gl
+    gl.useProgram(this._programsFor.render.glProgram)
     gl.bindVertexArray(this._vaos[this._read + 2])
   }
 

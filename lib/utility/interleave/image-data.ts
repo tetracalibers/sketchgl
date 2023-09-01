@@ -74,10 +74,9 @@ export class ImageInterleavedData<K extends string> {
         this._generators.forEach((value) => {
           if (!value) return
           const { dimension, generator } = value
-          const offset = index + 4
           const result = generator(args)
           for (let k = 0; k < dimension; ++k) {
-            array[thisRow + offset + k] = result[k]
+            array[thisRow + index + k] = result[k]
           }
           index++
         })

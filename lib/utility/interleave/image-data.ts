@@ -78,7 +78,7 @@ export class ImageInterleavedData<K extends string> {
           for (let k = 0; k < dimension; ++k) {
             array[thisRow + index + k] = result[k]
           }
-          index++
+          index += dimension
         })
       }
     }

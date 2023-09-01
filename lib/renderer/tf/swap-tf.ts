@@ -175,7 +175,6 @@ export class SwapTFRenderer<V extends string> extends TFRendererBase {
 
   private bindAttribs({ vao, buffers }: VAOSource) {
     const gl = this._gl
-    const bufferCount = buffers.length + 1
 
     gl.bindVertexArray(vao)
 
@@ -189,7 +188,7 @@ export class SwapTFRenderer<V extends string> extends TFRendererBase {
         const { stride } = buffer
         gl.enableVertexAttribArray(attrib.location)
         gl.vertexAttribPointer(location, components, type ?? gl.FLOAT, false, stride, offset)
-        offset += attrib.components * bufferCount
+        offset += attrib.components * 4
       }
     }
 

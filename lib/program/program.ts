@@ -27,9 +27,11 @@ export class Program {
     gl.attachShader(glprogram, vs)
     gl.attachShader(glprogram, fs)
 
+    // リンクする前に実行
     if (varyings && varyings.length > 0) {
-      // リンクする前に実行
-      gl.transformFeedbackVaryings(glprogram, varyings, gl.SEPARATE_ATTRIBS)
+      // TransformFeedbackを使用すると、頂点シェーダーが出力する変数の値をキャプチャできる
+      // ただし、プログラムをリンクする前に、キャプチャする変数を指定する必要がある
+      gl.transformFeedbackVaryings(glprogram, varyings, gl.INTERLEAVED_ATTRIBS)
     }
 
     // シェーダをリンク

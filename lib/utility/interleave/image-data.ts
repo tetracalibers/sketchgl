@@ -19,7 +19,7 @@ type Generator = (args: GeneratorOption) => number[]
 
 type GeneratorInfo = {
   components: Dimension
-  generator: Generator
+  generate: Generator
 }
 
 type GeneratorMap<K extends string> = Map<K, GeneratorInfo | null>
@@ -37,13 +37,13 @@ export class ImageInterleavedData<K extends string> {
   useImageColorAs(name: K) {
     this.add(name, {
       components: 4,
-      generator: ({ color }) => [color.r, color.g, color.b, color.a]
+      generate: ({ color }) => [color.r, color.g, color.b, color.a]
     })
   }
 
-  add(name: K, { components, generator }: GeneratorInfo) {
+  add(name: K, { components, generate }: GeneratorInfo) {
     this._totalDimensions += components
-    this._generators.set(name, { components, generator })
+    this._generators.set(name, { components, generate })
   }
 
   generate() {
@@ -74,8 +74,8 @@ export class ImageInterleavedData<K extends string> {
         let index = 0
         this._generators.forEach((value) => {
           if (!value) return
-          const { components, generator } = value
-          const result = generator(args)
+          const { components, generate } = value
+          const result = generate(args)
           for (let k = 0; k < components; ++k) {
             array[thisRow + index + k] = result[k]
           }

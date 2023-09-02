@@ -28,7 +28,6 @@ type GeneratorMap<K extends string> = Map<
 export class ImageInterleavedData<K extends string> {
   private _imgCvs: ImageCanvas
   private _generators: GeneratorMap<K>
-  // 画像データの色は必ず持たせるので、最低でも4
   private _totalDimensions = 0
 
   constructor(imgCvs: ImageCanvas, keys: K[]) {

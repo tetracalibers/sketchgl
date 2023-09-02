@@ -17,6 +17,10 @@ interface VAOSource {
   buffers: BufferSource[]
 }
 
+const isEveryValidLocation = (attribs: Array<AttribLocation | null>): attribs is AttribLocation[] => {
+  return !attribs.includes(null)
+}
+
 export class SwapTFRenderer<V extends string> {
   private _gl: WebGL2RenderingContext
   private _programsFor: {
@@ -24,13 +28,10 @@ export class SwapTFRenderer<V extends string> {
     render: Program
   }
   private _attribsFor: {
-    update: Map<V, AttribLocation>
+    update: Map<V, AttribLocation | null>
     render: Map<string, AttribLocation>
-  } = {
-    update: new Map(),
-    render: new Map()
   }
-  private _varyings: V[] = []
+  private _varyings: V[]
   private _buffers: (WebGLBuffer | null)[]
   private _vaos: (WebGLVertexArrayObject | null)[]
 
@@ -44,6 +45,10 @@ export class SwapTFRenderer<V extends string> {
     this._programsFor = {
       update: new Program(gl),
       render: new Program(gl)
+    }
+    this._attribsFor = {
+      update: new Map(varyings.map((key) => [key, null])),
+      render: new Map()
     }
     this._varyings = varyings
     this._buffers = [gl.createBuffer(), gl.createBuffer()]
@@ -121,11 +126,12 @@ export class SwapTFRenderer<V extends string> {
     const attribs = this._attribsFor
     const totalComponents = this._totalComponents
 
-    const updateAttribs = this._varyings
-      .map((key) => this._attribsFor.update.get(key))
-      .filter((a): a is AttribLocation => a !== undefined)
-
+    const updateAttribs = [...attribs.update.values()]
     const renderAttribs = [...attribs.render.values()]
+
+    if (!isEveryValidLocation(updateAttribs)) {
+      throw new Error("update attribs are not set")
+    }
 
     const table = [
       {

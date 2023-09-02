@@ -17,13 +17,12 @@ type GeneratorOption = {
 
 type Generator = (args: GeneratorOption) => number[]
 
-type GeneratorMap<K extends string> = Map<
-  K,
-  {
-    dimension: Dimension
-    generator: Generator
-  } | null
->
+type GeneratorInfo = {
+  dimension: Dimension
+  generator: Generator
+}
+
+type GeneratorMap<K extends string> = Map<K, GeneratorInfo | null>
 
 export class ImageInterleavedData<K extends string> {
   private _imgCvs: ImageCanvas
@@ -36,10 +35,13 @@ export class ImageInterleavedData<K extends string> {
   }
 
   useImageColorAs(name: K) {
-    this.add(name, 4, ({ color }) => [color.r, color.g, color.b, color.a])
+    this.add(name, {
+      dimension: 4,
+      generator: ({ color }) => [color.r, color.g, color.b, color.a]
+    })
   }
 
-  add(name: K, dimension: Dimension, generator: Generator) {
+  add(name: K, { dimension, generator }: GeneratorInfo) {
     this._totalDimensions += dimension
     this._generators.set(name, { dimension, generator })
   }

@@ -25,10 +25,10 @@ export class SwapTFRenderer<V extends string> {
   }
   private _attribsFor: {
     update: Map<V, AttribLocation>
-    render: AttribLocation[]
+    render: Map<string, AttribLocation>
   } = {
     update: new Map(),
-    render: []
+    render: new Map()
   }
   private _varyings: V[] = []
   private _buffers: (WebGLBuffer | null)[]
@@ -61,9 +61,9 @@ export class SwapTFRenderer<V extends string> {
     this._attribsFor.update.set(varyingName, { location, components, type: type ?? gl.FLOAT })
   }
 
-  registRenderAttrib({ location, components, type }: AttribLocation) {
+  registRenderAttrib(attrName: string, { location, components, type }: AttribLocation) {
     const gl = this._gl
-    this._attribsFor.render.push({ location, components, type: type ?? gl.FLOAT })
+    this._attribsFor.render.set(attrName, { location, components, type: type ?? gl.FLOAT })
   }
 
   setup(interleavedArray: Float32Array) {
@@ -125,6 +125,8 @@ export class SwapTFRenderer<V extends string> {
       .map((key) => this._attribsFor.update.get(key))
       .filter((a): a is AttribLocation => a !== undefined)
 
+    const renderAttribs = [...attribs.render.values()]
+
     const table = [
       {
         vao: vaos[0],
@@ -152,7 +154,7 @@ export class SwapTFRenderer<V extends string> {
           {
             buffer: buffers[0],
             stride: 4 * totalComponents,
-            attribs: attribs.render
+            attribs: renderAttribs
           }
         ]
       },
@@ -162,7 +164,7 @@ export class SwapTFRenderer<V extends string> {
           {
             buffer: buffers[1],
             stride: 4 * totalComponents,
-            attribs: attribs.render
+            attribs: renderAttribs
           }
         ]
       }

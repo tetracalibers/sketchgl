@@ -1,72 +1,26 @@
-import { Program } from "../../program"
+import { AttribLocation, SwapTFBase, isEveryValidLocation } from "./base"
 
-interface AttribLocation {
-  location: number
-  components: number
-  type?: number
-}
-
-interface BufferSource {
-  buffer: WebGLBuffer | null
-  stride: number
-  attribs: AttribLocation[]
-}
-
-interface VAOSource {
-  vao: WebGLVertexArrayObject | null
-  buffers: BufferSource[]
-}
-
-const isEveryValidLocation = (attribs: Array<AttribLocation | null>): attribs is AttribLocation[] => {
-  return !attribs.includes(null)
-}
-
-export class SwapTFRenderer<V extends string> {
-  private _gl: WebGL2RenderingContext
-  private _programsFor: {
-    update: Program
-    render: Program
-  }
+export class SwapTFRenderer<V extends string> extends SwapTFBase<V> {
   private _attribsFor: {
     update: Map<V, AttribLocation | null>
     render: Map<string, AttribLocation>
   }
-  private _varyings: V[]
-  private _buffers: (WebGLBuffer | null)[]
-  private _vaos: (WebGLVertexArrayObject | null)[]
-
-  private _read = 0
-  private _write = 1
-
-  private _totalComponents = 0
 
   constructor(gl: WebGL2RenderingContext, varyings: V[]) {
-    this._gl = gl
-    this._programsFor = {
-      update: new Program(gl),
-      render: new Program(gl)
-    }
+    super(gl, varyings)
     this._attribsFor = {
       update: new Map(varyings.map((key) => [key, null])),
       render: new Map()
     }
-    this._varyings = varyings
-    this._buffers = [gl.createBuffer(), gl.createBuffer()]
-    this._vaos = [
-      gl.createVertexArray() /* for updating buffer 1 */,
-      gl.createVertexArray() /* for updating buffer 2 */,
-      gl.createVertexArray() /* for rendering buffer 1 */,
-      gl.createVertexArray() /* for rendering buffer 2 */
-    ]
   }
 
-  registUpdateAttrib(varyingName: V, { location, components, type }: AttribLocation) {
+  registUpdateAttrib(varyingName: V, { location, components, type }: Omit<AttribLocation, "divisor">) {
     const gl = this._gl
     this._totalComponents += components
     this._attribsFor.update.set(varyingName, { location, components, type: type ?? gl.FLOAT })
   }
 
-  registRenderAttrib(attrName: string, { location, components, type }: AttribLocation) {
+  registRenderAttrib(attrName: string, { location, components, type }: Omit<AttribLocation, "divisor">) {
     const gl = this._gl
     this._attribsFor.render.set(attrName, { location, components, type: type ?? gl.FLOAT })
   }
@@ -74,52 +28,6 @@ export class SwapTFRenderer<V extends string> {
   setup(interleavedArray: Float32Array) {
     this.bindBuffer(interleavedArray)
     this.bindAllAttribs()
-  }
-
-  attachUpdateProgram(vert: string, frag: string) {
-    this._programsFor.update.attach(vert, frag, this._varyings)
-  }
-
-  attachRenderProgram(vert: string, frag: string) {
-    this._programsFor.render.attach(vert, frag)
-  }
-
-  startUpdate() {
-    const gl = this._gl
-    gl.useProgram(this._programsFor.update.glProgram)
-    gl.bindVertexArray(this._vaos[this._read])
-    gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER, 0, this._buffers[this._write])
-    gl.enable(gl.RASTERIZER_DISCARD)
-    gl.beginTransformFeedback(gl.POINTS)
-  }
-
-  endUpdate() {
-    const gl = this._gl
-    gl.endTransformFeedback()
-    gl.disable(gl.RASTERIZER_DISCARD)
-    gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER, 0, null)
-  }
-
-  startRender() {
-    const gl = this._gl
-    gl.useProgram(this._programsFor.render.glProgram)
-    gl.bindVertexArray(this._vaos[this._read + 2])
-  }
-
-  endRender() {
-    this.swap()
-  }
-
-  private swap() {
-    ;[this._read, this._write] = [this._write, this._read]
-  }
-
-  private bindBuffer(data: Float32Array) {
-    const gl = this._gl
-    gl.bindBuffer(gl.ARRAY_BUFFER, this._buffers[0])
-    gl.bufferData(gl.ARRAY_BUFFER, data, gl.STREAM_DRAW)
-    gl.bindBuffer(gl.ARRAY_BUFFER, this._buffers[1])
-    gl.bufferData(gl.ARRAY_BUFFER, data, gl.STREAM_DRAW)
   }
 
   private bindAllAttribs() {
@@ -179,36 +87,5 @@ export class SwapTFRenderer<V extends string> {
     ]
 
     table.map((obj) => this.bindAttribs(obj))
-  }
-
-  private bindAttribs({ vao, buffers }: VAOSource) {
-    const gl = this._gl
-
-    gl.bindVertexArray(vao)
-
-    for (let i = 0; i < buffers.length; i++) {
-      const buffer = buffers[i]
-      gl.bindBuffer(gl.ARRAY_BUFFER, buffer.buffer)
-
-      let offset = 0
-      for (const attrib of buffer.attribs) {
-        const { location, components, type } = attrib
-        const { stride } = buffer
-        gl.enableVertexAttribArray(attrib.location)
-        gl.vertexAttribPointer(location, components, type ?? gl.FLOAT, false, stride, offset)
-        offset += attrib.components * 4
-      }
-    }
-
-    gl.bindVertexArray(null)
-    gl.bindBuffer(gl.ARRAY_BUFFER, null)
-  }
-
-  get glProgramForUpdate() {
-    return this._programsFor.update.glProgram
-  }
-
-  get glProgramForRender() {
-    return this._programsFor.render.glProgram
   }
 }

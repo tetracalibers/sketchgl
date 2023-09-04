@@ -10,6 +10,7 @@
       "types": "./dist/types/index.d.ts",
       "default": "./dist/index.js"
     },
+    "./glsl": "./dist/glsl",
     "./*": {
       "types": "./dist/types/*.d.ts",
       "default": "./dist/*.js"

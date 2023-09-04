@@ -39,7 +39,8 @@
     "prettier": "^3.0.2",
     "prettier-plugin-glsl": "^0.1.2",
     "typescript": "^5.0.2",
-    "vite": "^4.4.5"
+    "vite": "^4.4.5",
+    "vite-plugin-static-copy": "^0.17.0"
   },
   "dependencies": {
     "lil-gui": "^0.18.2"

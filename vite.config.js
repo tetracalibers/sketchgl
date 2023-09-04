@@ -1,6 +1,5 @@
 import { resolve } from "path"
 import { defineConfig } from "vite"
-import { viteStaticCopy } from "vite-plugin-static-copy"
 
 export default defineConfig({
   build: {
@@ -30,15 +29,5 @@ export default defineConfig({
       }
     },
     sourcemap: true
-  },
-  plugins: [
-    viteStaticCopy({
-      targets: [
-        {
-          src: "glsl/*.glsl",
-          dest: "glsl"
-        }
-      ]
-    })
-  ]
+  }
 })

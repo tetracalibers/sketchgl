@@ -3,14 +3,14 @@
   "version": "0.0.0",
   "type": "module",
   "files": [
-    "dist"
+    "dist",
+    "glsl"
   ],
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
       "default": "./dist/index.js"
     },
-    "./glsl": "./dist/glsl",
     "./*": {
       "types": "./dist/types/*.d.ts",
       "default": "./dist/*.js"
@@ -40,8 +40,7 @@
     "prettier": "^3.0.2",
     "prettier-plugin-glsl": "^0.1.2",
     "typescript": "^5.0.2",
-    "vite": "^4.4.5",
-    "vite-plugin-static-copy": "^0.17.0"
+    "vite": "^4.4.5"
   },
   "dependencies": {
     "lil-gui": "^0.18.2"

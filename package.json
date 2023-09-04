@@ -35,6 +35,7 @@
     "format": "prettier --write --plugin prettier-plugin-glsl ."
   },
   "devDependencies": {
+    "glslify-import": "^3.1.0",
     "prettier": "^3.0.2",
     "prettier-plugin-glsl": "^0.1.2",
     "typescript": "^5.0.2",

@@ -43,7 +43,8 @@ export class ImageTexture extends TextureBase {
     })
   }
 
-  activate(program: WebGLProgram, name: string, unit = 0) {
+  activate(program: WebGLProgram | null, name: string, unit = 0) {
+    if (!program) throw new Error("program is null")
     const gl = this._gl
     const location = gl.getUniformLocation(program, name)
     gl.activeTexture(gl.TEXTURE0 + unit)

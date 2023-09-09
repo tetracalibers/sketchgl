@@ -10,3 +10,5 @@ const vec3 sepiaScale = vec3(sepiaR, sepiaG, sepiaB);
 vec3 toSepia(vec3 color) {
   return toGrayscale(color) * sepiaScale;
 }
+
+#pragma glslify: export(toSepia)

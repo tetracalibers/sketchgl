@@ -1,4 +1,4 @@
-#pragma glslify: import("./consts.glsl")
+#pragma glslify: import("./PI.glsl")
 
 // atan を x = 0 上でも定義した拡張版
 // tan(y) = x となるy（偏角）を(-PI, PI]の範囲で返す

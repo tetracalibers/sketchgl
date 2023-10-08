@@ -27,6 +27,7 @@ export default defineConfig({
       social: {
         github: "https://github.com/withastro/starlight"
       },
+      customCss: ["./src/styles/prism-atom-dark.css"],
       sidebar: [
         {
           label: "Guides",

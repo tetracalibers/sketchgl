@@ -22,7 +22,7 @@ export abstract class SketchBase<
     })
     this._context = context
 
-    const sketch = sketchFn(this._pluckSketchFnArgs(context))
+    const sketch = sketchFn(this._pluckSketchFnArgs(context, config))
 
     if (canvasOptions.autoResize) {
       this._setupResize(sketch)
@@ -34,7 +34,7 @@ export abstract class SketchBase<
     this._setup(sketch)
   }
 
-  abstract _pluckSketchFnArgs(context: Context): CANVAS
+  abstract _pluckSketchFnArgs(context: Context, config: CONFIG): CANVAS
 
   protected _setupResize({ drawOnFrame, drawOnInit, resizes }: Sketch) {
     const context = this._context

@@ -19,21 +19,12 @@ export interface SketchFragCanvas extends SketchCanvas {
 export type SketchFragFn = SketchFn<SketchFragCanvas>
 
 class SketchFragCore extends SketchBase<SketchFragCanvas, SketchFragConfig> {
-  private _program: Program
-
-  constructor(config: SketchFragConfig, sketchFn: SketchFragFn) {
-    super(config, sketchFn)
-
-    const { frag } = config
-    this._program = this._buildProgram(frag)
-  }
-
-  _pluckSketchFnArgs(context: Context) {
+  _pluckSketchFnArgs(context: Context, config: SketchFragConfig) {
     const { canvas, gl } = context
     const renderToCanvas = () => {
       gl.drawArrays(gl.TRIANGLE_FAN, 0, 3)
     }
-    const program = this._program.glProgram
+    const program = this._buildProgram(config.frag).glProgram
 
     if (!program) {
       throw new Error("[sketchgl] Failed to initialize program")

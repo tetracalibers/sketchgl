@@ -60,6 +60,7 @@ class SketchFragCore extends SketchBase<SketchFragCanvas, SketchFragConfig> {
 }
 
 export class SketchFrag extends SketchProxyBase<SketchFragCore, SketchFragCanvas, SketchFragConfig> {
+  /** @internal */
   _instantiation(config: SketchFragConfig) {
     return new SketchFragCore(config, this._sketch)
   }

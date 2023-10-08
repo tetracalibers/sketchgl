@@ -13,6 +13,7 @@ class SketchGLCore extends SketchBase {
 }
 
 export class SketchGL extends SketchProxyBase<SketchGLCore> {
+  /** @internal */
   _instantiation(config: SketchConfig) {
     return new SketchGLCore(config, this._sketch)
   }

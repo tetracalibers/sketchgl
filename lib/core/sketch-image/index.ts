@@ -49,6 +49,7 @@ class SketchImageCore extends SketchBase<SketchImageCanvas, SketchImageConfig> {
 }
 
 export class SketchImage extends SketchProxyBase<SketchImageCore, SketchImageCanvas, SketchImageConfig> {
+  /** @internal */
   _instantiation(config: SketchConfig) {
     return new SketchImageCore(config, this._sketch)
   }

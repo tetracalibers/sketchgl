@@ -16,10 +16,12 @@ export interface SketchFragCanvas extends SketchCanvas {
   renderToCanvas: () => void
 }
 
+export type SketchFragFn = SketchFn<SketchFragCanvas>
+
 class SketchFragCore extends SketchBase<SketchFragCanvas, SketchFragConfig> {
   private _program: Program
 
-  constructor(config: SketchFragConfig, sketchFn: SketchFn<SketchFragCanvas>) {
+  constructor(config: SketchFragConfig, sketchFn: SketchFragFn) {
     super(config, sketchFn)
 
     const { frag } = config

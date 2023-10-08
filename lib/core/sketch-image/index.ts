@@ -2,13 +2,15 @@ import { ImageTexture } from "$/texture/image-texture"
 import { Context } from "../context"
 import { SketchBase } from "../sketch/core"
 import { SketchProxyBase } from "../sketch/proxy"
-import { Sketch, SketchCanvas, SketchConfig } from "../sketch/type"
+import { Sketch, SketchCanvas, SketchConfig, SketchFn } from "../sketch/type"
 
 export interface SketchImageConfig extends SketchConfig {}
 
 export interface SketchImageCanvas extends SketchCanvas {
   fitImage: (img: HTMLImageElement) => void
 }
+
+export type SketchImageFn = SketchFn<SketchImageCanvas>
 
 class SketchImageCore extends SketchBase<SketchImageCanvas, SketchImageConfig> {
   private _preloaded?: (texture: ImageTexture) => void

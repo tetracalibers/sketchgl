@@ -1,8 +1,8 @@
 // forked from https://github.com/PacktPublishing/Real-Time-3D-Graphics-with-WebGL-2/blob/master/common/js/Controls.js
 
-import type { AngleCamera } from "./angle-camera"
-import type { RawVector2 } from "../math/vector"
-import { Pointer } from "../interactive/pointer"
+import { Pointer } from "$/interactive/pointer"
+import { RawVector2 } from "$/math/vector"
+import { AngleCamera } from "./base"
 
 export class AngleCameraController extends Pointer {
   private _camera: AngleCamera
@@ -18,7 +18,7 @@ export class AngleCameraController extends Pointer {
   private _motionFactor: number
   private _keyIncrement: number
 
-  private constructor(canvas: HTMLCanvasElement, camera: AngleCamera) {
+  constructor(canvas: HTMLCanvasElement, camera: AngleCamera) {
     super(canvas)
 
     this._camera = camera
@@ -45,10 +45,6 @@ export class AngleCameraController extends Pointer {
 
     canvas.setAttribute("tabindex", "0")
     canvas.addEventListener("keydown", (e) => this.onKeyDown(e), { passive: false })
-  }
-
-  static init(canvas: HTMLCanvasElement, camera: AngleCamera) {
-    new AngleCameraController(canvas, camera)
   }
 
   private onMoveStart(e: MouseEvent | TouchEvent) {

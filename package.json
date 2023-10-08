@@ -8,26 +8,26 @@
   ],
   "exports": {
     ".": {
-      "types": "./dist/types/index.d.ts",
-      "default": "./dist/index.js"
+      "types": "./dist/types/core.d.ts",
+      "default": "./dist/core.js"
     },
     "./*": {
       "types": "./dist/types/*.d.ts",
       "default": "./dist/*.js"
     }
   },
-  "main": "./dist/index.js",
+  "main": "./dist/core.js",
   "typesVersions": {
     "*": {
-      "dist/types/index.d.ts": [
-        "dist/types/index.d.ts"
+      "dist/types/core.d.ts": [
+        "dist/types/core.d.ts"
       ],
       "*": [
         "dist/types/*"
       ]
     }
   },
-  "types": "./dist/types/index.d.ts",
+  "types": "./dist/types/core.d.ts",
   "scripts": {
     "dev": "vite",
     "build": "vite build && tsc",

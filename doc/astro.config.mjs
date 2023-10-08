@@ -7,7 +7,7 @@ const __dirname = new URL(".", import.meta.url).pathname
 
 const typeDocSidebarGroup = await generateTypeDoc({
   entryPoints: [
-    "../lib/index.ts",
+    "../lib/core.ts",
     "../lib/interactive.ts",
     "../lib/program.ts",
     "../lib/renderer.ts",
@@ -24,11 +24,12 @@ const typeDocSidebarGroup = await generateTypeDoc({
 export default defineConfig({
   vite: {
     resolve: {
-      alias: {
-        "@": resolve(__dirname, "src"),
-        sketchgl: resolve(__dirname, "../lib"),
-        $: resolve(__dirname, "../lib/")
-      }
+      alias: [
+        { find: "@", replacement: resolve(__dirname, "src") },
+        { find: /^sketchgl\/(.*)$/, replacement: resolve(__dirname, "../lib/$1.ts") },
+        { find: /^sketchgl(?<!\/)$/, replacement: resolve(__dirname, "../lib/core.ts") },
+        { find: "$", replacement: resolve(__dirname, "../lib/") }
+      ]
     }
   },
   integrations: [

@@ -4,7 +4,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "sketchgl": ["../lib"],
+      "sketchgl": ["../lib/core.ts"],
       "sketchgl/*": ["../lib/*"]
     }
   }

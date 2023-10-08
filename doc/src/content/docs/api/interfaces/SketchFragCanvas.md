@@ -21,7 +21,7 @@ SketchCanvas.canvas
 
 #### Source
 
-[core/sketch/type.ts:11](https://github.com/tetracalibers/sketchgl/blob/4d560c2/lib/core/sketch/type.ts#L11)
+[core/sketch/type.ts:11](https://github.com/tetracalibers/sketchgl/blob/8077943/lib/core/sketch/type.ts#L11)
 
 ***
 
@@ -35,7 +35,7 @@ SketchCanvas.gl
 
 #### Source
 
-[core/sketch/type.ts:12](https://github.com/tetracalibers/sketchgl/blob/4d560c2/lib/core/sketch/type.ts#L12)
+[core/sketch/type.ts:12](https://github.com/tetracalibers/sketchgl/blob/8077943/lib/core/sketch/type.ts#L12)
 
 ***
 
@@ -45,7 +45,7 @@ SketchCanvas.gl
 
 #### Source
 
-[core/sketch-frag/index.ts:15](https://github.com/tetracalibers/sketchgl/blob/4d560c2/lib/core/sketch-frag/index.ts#L15)
+[core/sketch-frag/index.ts:15](https://github.com/tetracalibers/sketchgl/blob/8077943/lib/core/sketch-frag/index.ts#L15)
 
 ***
 
@@ -55,7 +55,7 @@ SketchCanvas.gl
 
 #### Source
 
-[core/sketch-frag/index.ts:16](https://github.com/tetracalibers/sketchgl/blob/4d560c2/lib/core/sketch-frag/index.ts#L16)
+[core/sketch-frag/index.ts:16](https://github.com/tetracalibers/sketchgl/blob/8077943/lib/core/sketch-frag/index.ts#L16)
 
 ***
 Generated using [typedoc-plugin-markdown](https://www.npmjs.com/package/typedoc-plugin-markdown) and [TypeDoc](https://typedoc.org/)

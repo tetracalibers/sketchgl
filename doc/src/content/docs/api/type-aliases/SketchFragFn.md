@@ -9,7 +9,7 @@ title: "SketchFragFn"
 
 ## Source
 
-[core/sketch-frag/index.ts:19](https://github.com/tetracalibers/sketchgl/blob/4d560c2/lib/core/sketch-frag/index.ts#L19)
+[core/sketch-frag/index.ts:19](https://github.com/tetracalibers/sketchgl/blob/8077943/lib/core/sketch-frag/index.ts#L19)
 
 ***
 Generated using [typedoc-plugin-markdown](https://www.npmjs.com/package/typedoc-plugin-markdown) and [TypeDoc](https://typedoc.org/)

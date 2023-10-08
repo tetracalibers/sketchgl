@@ -27,7 +27,7 @@ title: "SketchFragConfig"
 
 #### Source
 
-[core/sketch/type.ts:4](https://github.com/tetracalibers/sketchgl/blob/4d560c2/lib/core/sketch/type.ts#L4)
+[core/sketch/type.ts:4](https://github.com/tetracalibers/sketchgl/blob/8077943/lib/core/sketch/type.ts#L4)
 
 ***
 
@@ -37,7 +37,7 @@ title: "SketchFragConfig"
 
 #### Source
 
-[core/sketch-frag/index.ts:11](https://github.com/tetracalibers/sketchgl/blob/4d560c2/lib/core/sketch-frag/index.ts#L11)
+[core/sketch-frag/index.ts:11](https://github.com/tetracalibers/sketchgl/blob/8077943/lib/core/sketch-frag/index.ts#L11)
 
 ***
 
@@ -51,7 +51,7 @@ title: "SketchFragConfig"
 
 #### Source
 
-[core/sketch/type.ts:7](https://github.com/tetracalibers/sketchgl/blob/4d560c2/lib/core/sketch/type.ts#L7)
+[core/sketch/type.ts:7](https://github.com/tetracalibers/sketchgl/blob/8077943/lib/core/sketch/type.ts#L7)
 
 ***
 Generated using [typedoc-plugin-markdown](https://www.npmjs.com/package/typedoc-plugin-markdown) and [TypeDoc](https://typedoc.org/)

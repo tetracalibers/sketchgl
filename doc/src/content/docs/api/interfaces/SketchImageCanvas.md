@@ -21,7 +21,7 @@ SketchCanvas.canvas
 
 #### Source
 
-[core/sketch/type.ts:11](https://github.com/tetracalibers/sketchgl/blob/4d560c2/lib/core/sketch/type.ts#L11)
+[core/sketch/type.ts:11](https://github.com/tetracalibers/sketchgl/blob/8077943/lib/core/sketch/type.ts#L11)
 
 ***
 
@@ -35,7 +35,7 @@ SketchCanvas.canvas
 
 #### Source
 
-[core/sketch-image/index.ts:10](https://github.com/tetracalibers/sketchgl/blob/4d560c2/lib/core/sketch-image/index.ts#L10)
+[core/sketch-image/index.ts:10](https://github.com/tetracalibers/sketchgl/blob/8077943/lib/core/sketch-image/index.ts#L10)
 
 ***
 
@@ -49,7 +49,7 @@ SketchCanvas.gl
 
 #### Source
 
-[core/sketch/type.ts:12](https://github.com/tetracalibers/sketchgl/blob/4d560c2/lib/core/sketch/type.ts#L12)
+[core/sketch/type.ts:12](https://github.com/tetracalibers/sketchgl/blob/8077943/lib/core/sketch/type.ts#L12)
 
 ***
 Generated using [typedoc-plugin-markdown](https://www.npmjs.com/package/typedoc-plugin-markdown) and [TypeDoc](https://typedoc.org/)

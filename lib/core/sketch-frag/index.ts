@@ -2,7 +2,7 @@ import { Program } from "$/program"
 import { Context } from "../context"
 import { SketchBase } from "../sketch/core"
 import { SketchProxyBase } from "../sketch/proxy"
-import { SketchCanvas, SketchConfig } from "../sketch/type"
+import { SketchCanvas, SketchConfig, SketchFn } from "../sketch/type"
 
 // @ts-ignore
 import vert from "./full-canvas.vert?raw"
@@ -16,10 +16,10 @@ export interface SketchFragCanvas extends SketchCanvas {
   renderToCanvas: () => void
 }
 
-class SketchFragCore extends SketchBase<SketchFragCanvas> {
+class SketchFragCore extends SketchBase<SketchFragCanvas, SketchFragConfig> {
   private _program: Program
 
-  constructor(config: SketchFragConfig, sketchFn: any) {
+  constructor(config: SketchFragConfig, sketchFn: SketchFn<SketchFragCanvas>) {
     super(config, sketchFn)
 
     const { frag } = config
@@ -59,7 +59,7 @@ class SketchFragCore extends SketchBase<SketchFragCanvas> {
   _beforeStart() {}
 }
 
-export class SketchFrag extends SketchProxyBase<SketchFragCore, SketchFragCanvas> {
+export class SketchFrag extends SketchProxyBase<SketchFragCore, SketchFragCanvas, SketchFragConfig> {
   _instantiation(config: SketchFragConfig) {
     return new SketchFragCore(config, this._sketch)
   }

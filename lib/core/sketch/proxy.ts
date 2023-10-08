@@ -2,19 +2,20 @@ import { SketchBase } from "./core"
 import { Sketch, SketchCanvas, SketchConfig, SketchFn } from "./type"
 
 export abstract class SketchProxyBase<
-  I extends SketchBase,
-  C extends SketchCanvas = SketchCanvas,
-  S extends Sketch = Sketch
+  INSTANCE extends SketchBase,
+  CANVAS extends SketchCanvas = SketchCanvas,
+  CONFIG extends SketchConfig = SketchConfig,
+  SKETCH extends Sketch = Sketch
 > {
-  protected _real: I | null = null
-  protected _config: SketchConfig | null = null
-  protected _sketch: SketchFn<C, S>
+  protected _real: INSTANCE | null = null
+  protected _config: CONFIG | null = null
+  protected _sketch: SketchFn<CANVAS, SKETCH>
 
-  constructor(sketch: SketchFn<C, S>) {
+  constructor(sketch: SketchFn<CANVAS, SKETCH>) {
     this._sketch = sketch
   }
 
-  bindCanvas(config: SketchConfig) {
+  bindCanvas(config: CONFIG) {
     this._config = config
   }
 
@@ -25,7 +26,7 @@ export abstract class SketchProxyBase<
     real.screenshot()
   }
 
-  abstract _instantiation(config: SketchConfig): I
+  abstract _instantiation(config: CONFIG): INSTANCE
 
   protected _realize() {
     if (!this._real) {

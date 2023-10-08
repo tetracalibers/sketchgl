@@ -2,13 +2,17 @@ import { Clock } from "$/core/clock"
 import { Context } from "$/core/context"
 import { Sketch, SketchCanvas, SketchConfig, SketchFn } from "./type"
 
-export abstract class SketchBase<C extends SketchCanvas = SketchCanvas, S extends Sketch = Sketch> {
+export abstract class SketchBase<
+  CANVAS extends SketchCanvas = SketchCanvas,
+  CONFIG extends SketchConfig = SketchConfig,
+  SKETCH extends Sketch = Sketch
+> {
   protected _loopClock?: Clock
   protected _context: Context
   protected _beforeCapture?: () => void
   protected _firstDraw: () => void
 
-  constructor(config: SketchConfig, sketchFn: SketchFn<C, S>) {
+  constructor(config: CONFIG, sketchFn: SketchFn<CANVAS, SKETCH>) {
     const { canvas: _canvas, gl: glOptions } = config
     const { el, ...canvasOptions } = _canvas
 
@@ -30,7 +34,7 @@ export abstract class SketchBase<C extends SketchCanvas = SketchCanvas, S extend
     this._setup(sketch)
   }
 
-  abstract _pluckSketchFnArgs(context: Context): C
+  abstract _pluckSketchFnArgs(context: Context): CANVAS
 
   protected _setupResize({ drawOnFrame, drawOnInit, resizes }: Sketch) {
     const context = this._context
@@ -71,7 +75,7 @@ export abstract class SketchBase<C extends SketchCanvas = SketchCanvas, S extend
     }
   }
 
-  abstract _setup(sketch: S): void
+  abstract _setup(sketch: SKETCH): void
 
   abstract _beforeStart(...args: any[]): void | Promise<void>
 

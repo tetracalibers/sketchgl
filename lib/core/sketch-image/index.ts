@@ -10,7 +10,7 @@ export interface SketchImageCanvas extends SketchCanvas {
   fitImage: (img: HTMLImageElement) => void
 }
 
-class SketchImageCore extends SketchBase<SketchImageCanvas> {
+class SketchImageCore extends SketchBase<SketchImageCanvas, SketchImageConfig> {
   private _preloaded?: (texture: ImageTexture) => void
 
   _pluckSketchFnArgs(context: Context) {
@@ -48,7 +48,7 @@ class SketchImageCore extends SketchBase<SketchImageCanvas> {
   }
 }
 
-export class SketchImage extends SketchProxyBase<SketchImageCore, SketchImageCanvas> {
+export class SketchImage extends SketchProxyBase<SketchImageCore, SketchImageCanvas, SketchImageConfig> {
   _instantiation(config: SketchConfig) {
     return new SketchImageCore(config, this._sketch)
   }

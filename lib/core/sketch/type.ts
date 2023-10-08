@@ -20,4 +20,6 @@ export interface Sketch {
   resizes?: (() => void)[]
 }
 
-export type SketchFn<C extends SketchCanvas = SketchCanvas, S extends Sketch = Sketch> = (skCanvas: C) => S
+export type SketchFn<CANVAS extends SketchCanvas = SketchCanvas, SKETCH extends Sketch = Sketch> = (
+  skCanvas: CANVAS
+) => SKETCH

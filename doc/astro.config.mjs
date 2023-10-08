@@ -1,6 +1,9 @@
 import { defineConfig } from "astro/config"
 import starlight from "@astrojs/starlight"
 import { generateTypeDoc } from "starlight-typedoc"
+import { resolve } from "node:path"
+
+const __dirname = new URL(".", import.meta.url).pathname
 
 const typeDocSidebarGroup = await generateTypeDoc({
   entryPoints: ["../lib/index.ts"],
@@ -9,6 +12,15 @@ const typeDocSidebarGroup = await generateTypeDoc({
 
 // https://astro.build/config
 export default defineConfig({
+  vite: {
+    resolve: {
+      alias: {
+        "@": resolve(__dirname, "src"),
+        sketchgl: resolve(__dirname, "../lib"),
+        $: resolve(__dirname, "../lib/")
+      }
+    }
+  },
   integrations: [
     starlight({
       title: "My Docs",

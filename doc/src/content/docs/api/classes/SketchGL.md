@@ -25,7 +25,7 @@ SketchProxyBase\<SketchGLCore\>.constructor
 
 #### Source
 
-[core/sketch/proxy.ts:14](https://github.com/tetracalibers/sketchgl/blob/efe48d3/lib/core/sketch/proxy.ts#L14)
+[core/sketch/proxy.ts:14](https://github.com/tetracalibers/sketchgl/blob/4d560c2/lib/core/sketch/proxy.ts#L14)
 
 ## Methods
 
@@ -43,7 +43,7 @@ SketchProxyBase.bindCanvas
 
 #### Source
 
-[core/sketch/proxy.ts:18](https://github.com/tetracalibers/sketchgl/blob/efe48d3/lib/core/sketch/proxy.ts#L18)
+[core/sketch/proxy.ts:18](https://github.com/tetracalibers/sketchgl/blob/4d560c2/lib/core/sketch/proxy.ts#L18)
 
 ***
 
@@ -57,7 +57,7 @@ SketchProxyBase.screenshot
 
 #### Source
 
-[core/sketch/proxy.ts:24](https://github.com/tetracalibers/sketchgl/blob/efe48d3/lib/core/sketch/proxy.ts#L24)
+[core/sketch/proxy.ts:24](https://github.com/tetracalibers/sketchgl/blob/4d560c2/lib/core/sketch/proxy.ts#L24)
 
 ***
 
@@ -71,7 +71,7 @@ SketchProxyBase.start
 
 #### Source
 
-[core/sketch-gl/index.ts:21](https://github.com/tetracalibers/sketchgl/blob/efe48d3/lib/core/sketch-gl/index.ts#L21)
+[core/sketch-gl/index.ts:21](https://github.com/tetracalibers/sketchgl/blob/4d560c2/lib/core/sketch-gl/index.ts#L21)
 
 ***
 Generated using [typedoc-plugin-markdown](https://www.npmjs.com/package/typedoc-plugin-markdown) and [TypeDoc](https://typedoc.org/)

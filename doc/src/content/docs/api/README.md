@@ -24,6 +24,8 @@ title: "sketchgl"
 ### Type Aliases
 
 - [SketchFn](/api/type-aliases/sketchfn/)
+- [SketchFragFn](/api/type-aliases/sketchfragfn/)
+- [SketchImageFn](/api/type-aliases/sketchimagefn/)
 
 ***
 Generated using [typedoc-plugin-markdown](https://www.npmjs.com/package/typedoc-plugin-markdown) and [TypeDoc](https://typedoc.org/)

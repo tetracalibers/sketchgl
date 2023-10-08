@@ -1,8 +1,4 @@
-export { SketchGl } from "./core/sketch-gl"
-export type { SketchFn, SketchConfig } from "./core/sketch-gl"
-
-export { SketchFrg } from "./core/sketch-frg"
-export type { FragmentSketchConfig, FragmentSketchFn } from "./core/sketch-frg"
-
-export { SketchFilter } from "./core/sketch-filter"
-export type { FilterSketchConfig, FilterSketchFn } from "./core/sketch-filter"
+export type { SketchFn, SketchConfig } from "./core/sketch/type"
+export { SketchGL } from "./core/sketch-gl"
+export { SketchFrag, type SketchFragCanvas, type SketchFragConfig } from "./core/sketch-frag"
+export { SketchImage, type SketchImageCanvas, type SketchImageConfig } from "./core/sketch-image"

@@ -6,7 +6,17 @@ import { resolve } from "node:path"
 const __dirname = new URL(".", import.meta.url).pathname
 
 const typeDocSidebarGroup = await generateTypeDoc({
-  entryPoints: ["../lib/index.ts"],
+  entryPoints: [
+    "../lib/index.ts",
+    "../lib/interactive.ts",
+    "../lib/program.ts",
+    "../lib/renderer.ts",
+    "../lib/utility.ts",
+    "../lib/texture.ts",
+    "../lib/geometry.ts",
+    "../lib/math.ts",
+    "../lib/camera.ts"
+  ],
   tsconfig: "../tsconfig.json"
 })
 

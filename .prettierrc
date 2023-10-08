@@ -8,7 +8,7 @@
   "bracketSpacing": true,
   "arrowParens": "always",
   "semi": false,
-  "plugins": ["prettier-plugin-glsl"],
+  "plugins": ["prettier-plugin-glsl", "prettier-plugin-astro"],
   "overrides": [
     {
       "files": ["*.frag"],

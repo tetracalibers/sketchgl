@@ -33,11 +33,12 @@
     "build": "vite build && tsc",
     "prepare": "vite build && tsc",
     "preview": "vite preview",
-    "format": "prettier --write --plugin prettier-plugin-glsl ."
+    "format": "prettier --write --plugin prettier-plugin-glsl --plugin prettier-plugin-astro ."
   },
   "devDependencies": {
     "glslify-import": "^3.1.0",
     "prettier": "^3.0.2",
+    "prettier-plugin-astro": "^0.12.0",
     "prettier-plugin-glsl": "^0.1.2",
     "typescript": "^5.0.2",
     "vite": "^4.4.5"

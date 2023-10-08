@@ -37,8 +37,8 @@ export default defineConfig({
           ]
         },
         {
-          label: "Reference",
-          autogenerate: { directory: "reference" }
+          label: "Examples",
+          autogenerate: { directory: "examples" }
         },
         typeDocSidebarGroup
       ]

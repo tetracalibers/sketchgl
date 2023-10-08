@@ -48,7 +48,7 @@ export default defineConfig({
         },
         {
           label: "Examples",
-          autogenerate: { directory: "examples" }
+          autogenerate: { directory: "examples", collapsed: true }
         },
         typeDocSidebarGroup
       ]

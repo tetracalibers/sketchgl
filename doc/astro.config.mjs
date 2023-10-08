@@ -1,5 +1,11 @@
 import { defineConfig } from "astro/config"
 import starlight from "@astrojs/starlight"
+import { generateTypeDoc } from "starlight-typedoc"
+
+const typeDocSidebarGroup = await generateTypeDoc({
+  entryPoints: ["../lib/index.ts"],
+  tsconfig: "../tsconfig.json"
+})
 
 // https://astro.build/config
 export default defineConfig({
@@ -20,7 +26,8 @@ export default defineConfig({
         {
           label: "Reference",
           autogenerate: { directory: "reference" }
-        }
+        },
+        typeDocSidebarGroup
       ]
     })
   ]

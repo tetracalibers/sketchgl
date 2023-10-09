@@ -31,7 +31,7 @@ const config: SketchFragConfig = {
   frag,
   canvas: {
     el: "gl-canvas",
-    fit: "screen",
+    fit: "square",
     autoResize: true
   }
 }

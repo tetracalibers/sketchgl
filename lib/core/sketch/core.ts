@@ -55,9 +55,8 @@ export abstract class SketchBase<
     }
   }
 
-  protected _buildFirstDrawFn({ drawOnInit, drawOnFrame, preloaded, preloads }: Sketch) {
+  protected _buildFirstDrawFn({ drawOnInit, drawOnFrame, preloads }: Sketch) {
     const firstDrawFn = () => {
-      preloaded && preloaded()
       drawOnInit && drawOnInit()
 
       if (drawOnFrame) {

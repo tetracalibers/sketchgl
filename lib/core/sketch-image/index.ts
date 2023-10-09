@@ -37,8 +37,9 @@ class SketchImageCore extends SketchBase<SketchImageCanvas, SketchImageConfig> {
     return texture
   }
 
-  async _beforeStart(img: string) {
-    await this._setNewImage(img)
+  _beforeStart = async (img: string) => {
+    const texture = await this._setNewImage(img)
+    this._preloaded && this._preloaded(texture)
   }
 
   changeImage = async (img: File, cb?: (src: string) => void) => {

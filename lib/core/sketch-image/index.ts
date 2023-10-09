@@ -29,7 +29,7 @@ class SketchImageCore extends SketchBase<SketchImageCanvas, SketchImageConfig> {
     this._preloaded = preloaded
   }
 
-  private async _setNewImage(img: string) {
+  private _setNewImage = async (img: string) => {
     const context = this._context
     const { gl } = context
     const texture = new ImageTexture(gl, img)
@@ -61,7 +61,7 @@ export class SketchImage extends SketchProxyBase<SketchImageCore, SketchImageCan
     return new SketchImageCore(config, this._sketch)
   }
 
-  async start(img: string) {
+  start = async (img: string) => {
     const real = this._realize()
     await real.start(img)
   }

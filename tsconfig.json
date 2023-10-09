@@ -25,7 +25,9 @@
     "baseUrl": ".",
     "paths": {
       "$/*": ["lib/*"]
-    }
+    },
+
+    "rootDir": "."
   },
   "include": ["lib"]
 }

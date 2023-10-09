@@ -10,7 +10,11 @@ export interface SketchImageCanvas extends SketchCanvas {
   fitImage: (img: HTMLImageElement) => void
 }
 
-export type SketchImageFn = SketchFn<SketchImageCanvas>
+interface ImageSketch extends Sketch {
+  preloaded?: (texture: ImageTexture) => void
+}
+
+export type SketchImageFn = SketchFn<SketchImageCanvas, ImageSketch>
 
 class SketchImageCore extends SketchBase<SketchImageCanvas, SketchImageConfig> {
   private _preloaded?: (texture: ImageTexture) => void

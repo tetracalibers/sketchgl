@@ -2,7 +2,6 @@ import { EventEmitter } from "./event-emitter"
 
 export class Clock extends EventEmitter {
   private _isRunning: boolean
-  private _renderedEvent: CustomEvent
 
   constructor() {
     super()
@@ -10,8 +9,6 @@ export class Clock extends EventEmitter {
 
     this.tick = this.tick.bind(this)
     this.tick()
-
-    this._renderedEvent = new CustomEvent("glcanvasrendered", { bubbles: false })
 
     window.onblur = () => {
       this.stop()
@@ -28,7 +25,6 @@ export class Clock extends EventEmitter {
     if (this._isRunning) this.emit("tick")
     requestAnimationFrame(() => {
       this.tick()
-      window.dispatchEvent(this._renderedEvent)
     })
   }
 

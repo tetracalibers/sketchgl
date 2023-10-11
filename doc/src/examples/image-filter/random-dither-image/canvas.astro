@@ -1,0 +1,19 @@
+---
+import WebglDemo from "@/components/webgl-demo.astro"
+import glSrc from "./render?raw"
+import indexVert from "./index.vert?raw"
+import indexFrag from "./index.frag?raw"
+
+const shaders = [
+  {
+    vert: { title: "index.vert", src: indexVert },
+    frag: { title: "index.frag", src: indexFrag }
+  }
+]
+---
+
+<WebglDemo glSrc={glSrc} shaders={shaders}>
+  <canvas id="gl-canvas"></canvas>
+</WebglDemo>
+
+<script src="./render.ts"></script>

@@ -19,7 +19,15 @@
     "strict": true,
     "noUnusedLocals": false,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    /* Path alias */
+    "baseUrl": ".",
+    "paths": {
+      "$/*": ["lib/*"]
+    },
+
+    "rootDir": "."
   },
   "include": ["lib"]
 }

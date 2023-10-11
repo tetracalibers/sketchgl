@@ -1,0 +1,56 @@
+---
+import CodeBlock from "./code-block.astro"
+import { Icon } from "astro-icon"
+
+interface Props {
+  glSrc: string
+  shaders: { vert?: { title: string; src: string }; frag: { title: string; src: string } }[]
+}
+
+const { glSrc, shaders } = Astro.props
+const html = await Astro.slots.render("default")
+---
+
+<div class="container">
+  <div id="CanvasContainer"><slot /></div>
+  <div class="CodeBlockContainer" id="CodeBlockContainer">
+    <CodeBlock title="html" src={html} lang="html" />
+    <CodeBlock title="render.ts" src={glSrc} lang="ts" bgcolor="rgba(247, 200, 224, 0.3)" />
+    {
+      shaders.map(({ vert, frag }) => {
+        return (
+          <>
+            {vert && <CodeBlock title={vert.title} src={vert.src} lang="glsl" bgcolor="rgba(181, 241, 204, 0.3)" />}
+            <CodeBlock title={frag.title} src={frag.src} lang="glsl" bgcolor="rgba(180, 228, 255, 0.3)" />
+          </>
+        )
+      })
+    }
+  </div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    gap: 2em;
+    position: relative;
+  }
+
+  .CodeBlockContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 4em 0;
+    gap: 2em;
+  }
+
+  .CanvasContainer :global(> canvas) {
+    user-select: none;
+    aspect-ratio: 1;
+  }
+
+  .CanvasContainer :global(> canvas:focus) {
+    outline: none;
+  }
+</style>

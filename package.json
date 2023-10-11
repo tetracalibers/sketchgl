@@ -8,41 +8,48 @@
   ],
   "exports": {
     ".": {
-      "types": "./dist/types/index.d.ts",
-      "default": "./dist/index.js"
+      "types": "./dist/types/core.d.ts",
+      "default": "./dist/core.js"
     },
     "./*": {
       "types": "./dist/types/*.d.ts",
       "default": "./dist/*.js"
     }
   },
-  "main": "./dist/index.js",
+  "main": "./dist/core.js",
   "typesVersions": {
     "*": {
-      "dist/types/index.d.ts": [
-        "dist/types/index.d.ts"
+      "dist/types/core.d.ts": [
+        "dist/types/core.d.ts"
       ],
       "*": [
         "dist/types/*"
       ]
     }
   },
-  "types": "./dist/types/index.d.ts",
+  "types": "./dist/types/core.d.ts",
   "scripts": {
     "dev": "vite",
     "build": "vite build && tsc",
     "prepare": "vite build && tsc",
     "preview": "vite preview",
-    "format": "prettier --write --plugin prettier-plugin-glsl ."
+    "format": "prettier --write --plugin prettier-plugin-glsl --plugin prettier-plugin-astro ."
   },
   "devDependencies": {
     "glslify-import": "^3.1.0",
     "prettier": "^3.0.2",
+    "prettier-plugin-astro": "^0.12.0",
     "prettier-plugin-glsl": "^0.1.2",
     "typescript": "^5.0.2",
-    "vite": "^4.4.5"
-  },
-  "dependencies": {
+    "vite": "^4.4.5",
     "lil-gui": "^0.18.2"
+  },
+  "peerDependencies": {
+    "lil-gui": "^0.18.2"
+  },
+  "peerDependenciesMeta": {
+    "lil-gui": {
+      "optional": true
+    }
   }
 }

@@ -2,6 +2,11 @@ import { resolve } from "path"
 import { defineConfig } from "vite"
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      "$/": `${__dirname}/lib/`
+    }
+  },
   build: {
     lib: {
       // 複数のエントリーポイントのディクショナリや配列にもできます

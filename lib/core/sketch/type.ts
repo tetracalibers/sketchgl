@@ -13,10 +13,10 @@ export interface SketchCanvas {
 }
 
 export interface Sketch {
-  drawOnFrame?: () => void
-  drawOnInit?: () => void
+  drawOnFrame?: (...args: any[]) => void
+  drawOnInit?: (...args: any[]) => void
   preloads?: Promise<unknown>[]
-  preloaded?: () => void
+  preloaded?: (...args: any[]) => void
   resizes?: (() => void)[]
 }
 

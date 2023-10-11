@@ -10,10 +10,15 @@ export interface SketchImageConfig extends SketchConfig {
 
 export interface SketchImageCanvas extends SketchCanvas {
   fitImage: (img: HTMLImageElement) => void
-  textures: ImageTexture[]
 }
 
-export type SketchImageFn = SketchFn<SketchImageCanvas, Sketch>
+interface ImageSketch extends Sketch {
+  preloaded?: (textures: ImageTexture[]) => void
+  drawOnFrame?: (textures: ImageTexture[]) => void
+  drawOnInit?: (textures: ImageTexture[]) => void
+}
+
+export type SketchImageFn = SketchFn<SketchImageCanvas, ImageSketch>
 
 const buildTexture = (gl: WebGL2RenderingContext, img: string) => {
   const texture = new ImageTexture(gl, img)
@@ -25,13 +30,19 @@ const buildTexture = (gl: WebGL2RenderingContext, img: string) => {
 class SketchImageCore extends SketchBase<SketchImageCanvas, SketchImageConfig> {
   constructor(config: SketchImageConfig, sketchFn: SketchImageFn) {
     const reSketchFn = (skCanvas: SketchImageCanvas) => {
-      const { textures } = skCanvas
+      const { gl } = skCanvas
+
+      const { images } = config
+      const textures = images.map((img) => buildTexture(gl, img))
 
       const sketch = sketchFn(skCanvas)
-      const { preloads = [] } = sketch
+      const { preloads = [], preloaded, drawOnFrame, drawOnInit } = sketch
 
       return {
         ...sketch,
+        drawOnFrame: drawOnFrame && (() => drawOnFrame(textures)),
+        drawOnInit: drawOnInit && (() => drawOnInit(textures)),
+        preloaded: preloaded && (() => preloaded(textures)),
         preloads: [...textures.map((tex) => tex.load()), ...preloads]
       }
     }
@@ -63,13 +74,13 @@ class SketchImageCore extends SketchBase<SketchImageCanvas, SketchImageConfig> {
   changeImage = async (img: File, cb?: (src: string) => void) => {
     const src = URL.createObjectURL(img)
     const texture = await this._setNewImage(src)
-    this._preloaded && this._preloaded()
+    this._preloaded && this._preloaded([texture])
     cb && cb(src)
     URL.revokeObjectURL(src)
   }
 }
 
-export class SketchImage extends SketchProxyBase<SketchImageCore, SketchImageCanvas, SketchImageConfig> {
+export class SketchImage extends SketchProxyBase<SketchImageCore, SketchImageCanvas, SketchImageConfig, ImageSketch> {
   /** @internal */
   _instantiation(config: SketchImageConfig) {
     return new SketchImageCore(config, this._sketch)

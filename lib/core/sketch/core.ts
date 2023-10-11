@@ -10,7 +10,8 @@ export abstract class SketchBase<
   protected _loopClock?: Clock
   protected _context: Context
   protected _beforeCapture?: () => void
-  protected _firstDraw: () => void
+  protected _firstDraw: () => Promise<void>
+  protected _preloaded: SKETCH["preloaded"]
 
   constructor(config: CONFIG, sketchFn: SketchFn<CANVAS, SKETCH>) {
     const { canvas: _canvas, gl: glOptions } = config
@@ -30,8 +31,7 @@ export abstract class SketchBase<
 
     this._firstDraw = this._buildFirstDrawFn(sketch)
     this._beforeCapture = sketch.drawOnFrame
-
-    this._setup(sketch)
+    this._preloaded = sketch.preloaded
   }
 
   abstract _pluckSketchFnArgs(context: Context, config: CONFIG): CANVAS
@@ -55,8 +55,9 @@ export abstract class SketchBase<
     }
   }
 
-  protected _buildFirstDrawFn({ drawOnInit, drawOnFrame, preloads }: Sketch) {
+  protected _buildFirstDrawFn({ drawOnInit, drawOnFrame, preloads, preloaded }: Sketch) {
     const firstDrawFn = () => {
+      preloaded && preloaded()
       drawOnInit && drawOnInit()
 
       if (drawOnFrame) {
@@ -65,22 +66,17 @@ export abstract class SketchBase<
       }
     }
 
-    return () => {
+    return async () => {
       if (preloads) {
-        Promise.all(preloads).then(firstDrawFn)
+        await Promise.all(preloads).then(firstDrawFn)
       } else {
         firstDrawFn()
       }
     }
   }
 
-  abstract _setup(sketch: SKETCH): void
-
-  abstract _beforeStart(...args: any[]): void | Promise<void>
-
-  start = async (...args: any[]) => {
-    await this._beforeStart(...args)
-    this._firstDraw()
+  start = async () => {
+    await this._firstDraw()
   }
 
   screenshot = (filename?: string) => {

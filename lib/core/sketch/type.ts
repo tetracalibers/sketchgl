@@ -16,7 +16,7 @@ export interface Sketch {
   drawOnFrame?: () => void
   drawOnInit?: () => void
   preloads?: Promise<unknown>[]
-  preloaded?: (...args: any[]) => void
+  preloaded?: () => void
   resizes?: (() => void)[]
 }
 

@@ -7,9 +7,6 @@ class SketchGLCore extends SketchBase {
   _pluckSketchFnArgs(context: Context) {
     return context
   }
-
-  _setup() {}
-  _beforeStart() {}
 }
 
 export class SketchGL extends SketchProxyBase<SketchGLCore> {

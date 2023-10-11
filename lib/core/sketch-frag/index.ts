@@ -46,10 +46,6 @@ class SketchFragCore extends SketchBase<SketchFragCanvas, SketchFragConfig> {
 
     return program
   }
-
-  _setup() {}
-
-  _beforeStart() {}
 }
 
 export class SketchFrag extends SketchProxyBase<SketchFragCore, SketchFragCanvas, SketchFragConfig> {

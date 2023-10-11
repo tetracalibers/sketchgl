@@ -58,9 +58,7 @@ const rebuildVoronoi = (cone: InstancedGeometry, canvas: HTMLCanvasElement) => {
   cone.setup()
 }
 
-const sketch: SketchImageFn = ({ gl, canvas, fitImage, textures }) => {
-  const [texture] = textures
-
+const sketch: SketchImageFn = ({ gl, canvas, fitImage }) => {
   const uniforms = new Uniforms(gl, ["uMixingRatio"])
   let uMixingRatio = 0.9
 
@@ -85,12 +83,12 @@ const sketch: SketchImageFn = ({ gl, canvas, fitImage, textures }) => {
   return {
     resizes: [layer.resize, () => rebuildVoronoi(cone, canvas)],
 
-    preloaded: () => {
+    preloaded: ([texture]) => {
       fitImage(texture.img)
       rebuildVoronoi(cone, canvas)
     },
 
-    drawOnFrame() {
+    drawOnFrame([texture]) {
       layer.switchToOffLayer()
       gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 

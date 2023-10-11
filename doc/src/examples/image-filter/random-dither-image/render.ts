@@ -7,9 +7,7 @@ import mainFragSrc from "./index.frag?raw"
 
 import image from "@/assets/examples/original/pastel-tomixy.png"
 
-const sketch: SketchImageFn = ({ gl, fitImage, textures }) => {
-  const [texture] = textures
-
+const sketch: SketchImageFn = ({ gl, fitImage }) => {
   const program = new Program(gl)
   program.attach(mainVertSrc, mainFragSrc)
   program.activate()
@@ -21,7 +19,7 @@ const sketch: SketchImageFn = ({ gl, fitImage, textures }) => {
   gl.clearDepth(1.0)
 
   return {
-    preloaded: () => {
+    preloaded: ([texture]) => {
       texture.activate(program.glProgram, "uTexture0")
       fitImage(texture.img)
     },

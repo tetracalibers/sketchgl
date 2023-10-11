@@ -77,7 +77,7 @@ const sketch: SketchFn = ({ gl, canvas }) => {
 const config: SketchConfig = {
   canvas: {
     el: "gl-canvas",
-    fit: "screen",
+    fit: "square",
     autoResize: true
   }
 }

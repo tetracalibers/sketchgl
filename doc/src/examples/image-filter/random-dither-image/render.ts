@@ -7,7 +7,9 @@ import mainFragSrc from "./index.frag?raw"
 
 import image from "@/assets/examples/original/pastel-tomixy.png"
 
-const sketch: SketchImageFn = ({ gl }) => {
+const sketch: SketchImageFn = ({ gl, fitImage, textures }) => {
+  const [texture] = textures
+
   const program = new Program(gl)
   program.attach(mainVertSrc, mainFragSrc)
   program.activate()
@@ -19,8 +21,9 @@ const sketch: SketchImageFn = ({ gl }) => {
   gl.clearDepth(1.0)
 
   return {
-    preloaded: (texture) => {
+    preloaded: () => {
       texture.activate(program.glProgram, "uTexture0")
+      fitImage(texture.img)
     },
 
     drawOnFrame() {
@@ -37,12 +40,13 @@ const config: SketchImageConfig = {
   canvas: {
     el: "gl-canvas",
     autoResize: true
-  }
+  },
+  images: [image.src]
 }
 
 const sketcher = new SketchImage(sketch)
 
 window.onload = () => {
   sketcher.bindCanvas(config)
-  sketcher.start(image.src)
+  sketcher.start()
 }
